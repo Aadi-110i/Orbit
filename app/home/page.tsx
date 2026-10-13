@@ -6,6 +6,7 @@ import { MessageSquare, FolderOpen, FileText, Sparkles, Users, Search, ArrowRigh
 import { useState } from "react";
 import { ImageStreamHero } from "@/app/_components/ui/image-stream-hero";
 import { LiveCanvasSandbox } from "@/app/_components/ui/live-canvas-sandbox";
+import { WhyOrbitEditorial } from "@/app/_components/ui/why-orbit-editorial";
 
 export default function HomePage() {
   return (
@@ -298,6 +299,9 @@ export default function HomePage() {
 
       {/* ── LIVE INTERACTIVE CANVAS SANDBOX ── */}
       <LiveCanvasSandbox />
+
+      {/* ── WHY ORBIT EDITORIAL (ZELT-STYLE FEATURE SECTION) ── */}
+      <WhyOrbitEditorial />
 
       {/* ── PRICING SECTION ── */}
       <section id="pricing" style={{ padding: "120px 5%", background: "#fafafa", display: "flex", flexDirection: "column", alignItems: "center", borderTop: "1px solid #eaeaea", borderBottom: "1px solid #eaeaea" }}>
