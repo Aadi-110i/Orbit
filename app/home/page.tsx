@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MessageSquare, FolderOpen, FileText, Sparkles, Users, Search, ArrowRight, Check, ChevronDown, Code2, PenTool } from "lucide-react";
 import { useState } from "react";
 import { ImageStreamHero } from "@/app/_components/ui/image-stream-hero";
+import { LiveCanvasSandbox } from "@/app/_components/ui/live-canvas-sandbox";
 
 export default function HomePage() {
   return (
@@ -327,28 +328,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── LATEST FROM ORBIT SECTION ── */}
-      <section id="blog" style={{ background: "#fff", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", minHeight: "100vh", position: "relative" }}>
-        <ImageStreamHero
-          images={[
-            { src: "/images/blog1.jpg", alt: "Future of workspaces" },
-            { src: "/images/blog2.jpg", alt: "Multi-model chat" },
-            { src: "/images/blog3.jpg", alt: "Organize chaos" },
-            { src: "/images/blog1.jpg", alt: "Future of workspaces" },
-            { src: "/images/blog2.jpg", alt: "Multi-model chat" },
-            { src: "/images/blog3.jpg", alt: "Organize chaos" },
-          ]}
-          cards={6}
-          speed={24}
-          style={{ width: "100%", height: "100vh", position: "absolute", inset: 0 }}
-        >
-          <div style={{ pointerEvents: "none", position: "absolute", top: 0, left: 0, right: 0, bottom: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 20px", zIndex: 10 }}>
-            <div>
-              <h2 style={{ fontSize: "42px", fontWeight: 500, letterSpacing: "-0.02em", color: "#111", textShadow: "0 4px 24px rgba(255,255,255,0.8)" }}>Latest from Orbit</h2>
-            </div>
-          </div>
-        </ImageStreamHero>
-      </section>
+      {/* ── LIVE INTERACTIVE CANVAS SANDBOX ── */}
+      <LiveCanvasSandbox />
 
       {/* ── FAQ SECTION ── */}
       <section id="faq" style={{ padding: "120px 5%", background: "#111", color: "white", display: "flex", flexDirection: "column", alignItems: "center" }}>
