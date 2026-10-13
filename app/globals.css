@@ -1247,13 +1247,13 @@ body {
    ============================================================ */
 
 :root {
-  /* Canvas - Dark Mode */
-  --canvas-bg: #0a0a0b;
-  --canvas-dot: rgba(255, 255, 255, 0.08);
+  /* Canvas - Light / Apple-style */
+  --canvas-bg: #ffffff;
+  --canvas-dot: rgba(0, 0, 0, 0.06);
 
   /* Workspace bezel */
-  --bezel-border: rgba(255, 255, 255, 0.85);
-  --bezel-bg: #000000;
+  --bezel-border: #1a1a1a;
+  --bezel-bg: #f2f2f2;
 
   /* Surface (containers) */
   --surface: rgba(255, 255, 255, 0.06);

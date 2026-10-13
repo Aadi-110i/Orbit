@@ -105,7 +105,7 @@ export function WorkspaceNotchHeader() {
         {/* ── THE NOTCH TOOLBAR ── */}
         <div
           style={{
-            background: "rgba(22, 22, 24, 0.97)",
+            background: "rgba(15, 15, 17, 0.96)",
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
             color: "#f0f0f0",
@@ -113,11 +113,11 @@ export function WorkspaceNotchHeader() {
             alignItems: "center",
             gap: "5px",
             padding: "6px 14px",
-            borderBottomLeftRadius: "18px",
-            borderBottomRightRadius: "18px",
-            border: "1px solid rgba(255, 255, 255, 0.18)",
+            borderBottomLeftRadius: "20px",
+            borderBottomRightRadius: "20px",
+            border: "1px solid rgba(0, 0, 0, 0.5)",
             borderTop: "none",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0,0,0,0.4)",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0,0,0,0.15)",
             fontFamily: "var(--font-ui), 'Geist Sans', -apple-system, sans-serif",
             userSelect: "none",
           }}

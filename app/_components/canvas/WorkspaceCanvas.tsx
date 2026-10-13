@@ -216,7 +216,7 @@ export function WorkspaceCanvas() {
       : "canvas-select";
 
   return (
-    /* ── Black backdrop "device frame" ────────────────────────────── */
+    /* ── Light outer "device frame" ────────────────────────────── */
     <div
       style={{
         width: "100%",
@@ -229,9 +229,8 @@ export function WorkspaceCanvas() {
         boxSizing: "border-box",
       }}
     >
-      {/* ── Rounded white-bordered inner workspace frame ────────────── */}
+      {/* ── Rounded black-bordered inner workspace frame ────────────── */}
       <div
-        className="relative overflow-hidden"
         style={{
           width: "100%",
           height: "100%",
@@ -239,10 +238,14 @@ export function WorkspaceCanvas() {
           border: "2px solid var(--bezel-border)",
           background: "var(--canvas-bg)",
           boxShadow:
-            "0 0 0 1px rgba(0,0,0,0.8), 0 32px 80px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.15)",
+            "0 0 0 1px rgba(0,0,0,0.04), 0 20px 60px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.1)",
           position: "relative",
+          overflow: "hidden",
         }}
       >
+        {/* Top Unified Notch Taskbar — rendered at frame level, never clipped */}
+        <WorkspaceNotchHeader />
+
         {/* Canvas surface */}
         <div
           ref={canvasRef}
@@ -266,9 +269,6 @@ export function WorkspaceCanvas() {
 
         {/* Welcome state */}
         <WelcomeLayer />
-
-        {/* Top Unified Notch Taskbar */}
-        <WorkspaceNotchHeader />
 
         {/* Minimized tray */}
         <MinimizedTrayLayer />
