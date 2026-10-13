@@ -14,47 +14,50 @@ import {
 } from "@/app/_components/ui/spotlight-comparison-table";
 
 const ORBIT_COMPARISON_PLANS: ComparisonPlan[] = [
-  { id: "starter", name: "Starter", price: "$0", interval: "/mo", actionLabel: "Start free", href: "/signup" },
-  { id: "pro", name: "Pro", price: "$19", interval: "/mo", badge: "Room to grow", actionLabel: "Choose Pro", href: "/signup" },
-  { id: "business", name: "Business", price: "$49", interval: "/mo", actionLabel: "Let's talk", href: "/signup" },
+  { id: "starter", name: "Free Solo", price: "$0", interval: "/mo", actionLabel: "Launch Free", href: "/signup" },
+  { id: "pro", name: "Orbit Pro", price: "$19", interval: "/mo", badge: "Most Popular", actionLabel: "Start Pro", href: "/signup" },
+  { id: "business", name: "Team Studio", price: "$49", interval: "/mo", badge: "Collaborative", actionLabel: "Get Studio", href: "/signup" },
 ];
 
 const ORBIT_COMPARISON_GROUPS: ComparisonGroup[] = [
   {
-    id: "workspace",
-    label: "Workspace & Canvas",
+    id: "spatial_canvas",
+    label: "Spatial Infinite Canvas",
     features: [
-      { id: "projects", label: "Active Canvas Projects", values: { starter: "3", pro: "Unlimited", business: "Unlimited" } },
-      { id: "members", label: "Multiplayer Collaborators", values: { starter: "1", pro: "10", business: "Unlimited" } },
-      { id: "storage", label: "Spatial File Storage", values: { starter: "5 GB", pro: "100 GB", business: "1 TB" } },
-      { id: "history", label: "Version & Canvas History", values: { starter: true, pro: true, business: true } },
+      { id: "boards", label: "Infinite Canvas Boards", values: { starter: "3 Workspaces", pro: "Unlimited", business: "Unlimited Shared" } },
+      { id: "parallel_ai", label: "Parallel AI Chat Windows", values: { starter: "2 Windows", pro: "Unlimited Windows", business: "Unlimited Windows" } },
+      { id: "spatial_layout", label: "Auto-Save Canvas Positions & Pan/Zoom", values: { starter: true, pro: true, business: true } },
+      { id: "minimap", label: "Radar Minimap Navigation", values: { starter: true, pro: true, business: true } },
     ],
   },
   {
-    id: "intelligence",
-    label: "AI Models & Intelligence",
+    id: "ai_intelligence",
+    label: "Multi-Model Intelligence",
     features: [
-      { id: "multimodel", label: "Multi-Model AI (GPT-4o, Claude)", values: { starter: "Basic", pro: "Unlimited", business: "Priority Dedicated" } },
-      { id: "webgrounding", label: "Real-time Web Research Grounding", values: { starter: false, pro: true, business: true } },
-      { id: "customkeys", label: "BYO API Keys (Zero Margin)", values: { starter: true, pro: true, business: true } },
+      { id: "model_access", label: "AI Models Available", values: { starter: "GPT-4o Mini", pro: "Claude 3.5 Sonnet, GPT-4o, Gemini", business: "All Top Models + Custom Endpoints" } },
+      { id: "cross_referencing", label: "Side-by-Side Model Comparison", values: { starter: false, pro: true, business: true } },
+      { id: "live_web", label: "Built-in Live Web Grounding Search", values: { starter: "10 queries/day", pro: "Unlimited", business: "Unlimited Fast" } },
+      { id: "byo_keys", label: "Bring Your Own API Keys (Zero Markup)", values: { starter: true, pro: true, business: true } },
     ],
   },
   {
-    id: "workflow",
-    label: "Workflow & Code",
+    id: "tools_nodes",
+    label: "Integrated Tools & Nodes",
     features: [
-      { id: "monaco", label: "Monaco Code Execution Engine", values: { starter: true, pro: true, business: true } },
-      { id: "automations", label: "Canvas Node Automations", values: { starter: false, pro: true, business: true } },
-      { id: "export", label: "Vector & Markdown Export", values: { starter: true, pro: true, business: true } },
+      { id: "code_runner", label: "Monaco Code Editor & Live Preview", values: { starter: true, pro: true, business: true } },
+      { id: "drawing_board", label: "Freeform Architectural Drawing & Diagrams", values: { starter: true, pro: true, business: true } },
+      { id: "scratchpad", label: "Spatial Markdown Scratchpads", values: { starter: true, pro: true, business: true } },
+      { id: "node_connections", label: "Dynamic Connecting Arrows & Workflow Links", values: { starter: false, pro: true, business: true } },
     ],
   },
   {
-    id: "security",
-    label: "Security & Control",
+    id: "team_storage",
+    label: "Storage & Multiplayer",
     features: [
-      { id: "encryption", label: "End-to-End Local Encryption", values: { starter: true, pro: true, business: true } },
-      { id: "sso", label: "SAML SSO & Audit Logs", values: { starter: false, pro: false, business: true } },
-      { id: "support", label: "Priority 24/7 SLA Support", values: { starter: false, pro: "Email (24h)", business: "Dedicated Slack (1h)" } },
+      { id: "storage", label: "Persistent File & Board Storage", values: { starter: "1 GB", pro: "50 GB", business: "500 GB" } },
+      { id: "multiplayer", label: "Real-time Multiplayer Co-Editing", values: { starter: false, pro: "Up to 3 guests", business: "Unlimited Team Seats" } },
+      { id: "history", label: "Canvas State Version History", values: { starter: "7 Days", pro: "30 Days", business: "Unlimited" } },
+      { id: "export_options", label: "Export Full Board (PNG, PDF, Markdown)", values: { starter: true, pro: true, business: true } },
     ],
   },
 ];

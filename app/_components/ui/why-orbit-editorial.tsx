@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Code2, Sparkles, Check, ArrowRight, CornerDownLeft } from "lucide-react";
+import { MessageSquare, Code2, Sparkles, Check, ArrowRight, CornerDownLeft, Eye, Layers, Compass } from "lucide-react";
 
 export function WhyOrbitEditorial() {
   return (
@@ -17,7 +17,7 @@ export function WhyOrbitEditorial() {
         borderTop: "1px solid #EAEAEA",
       }}
     >
-      {/* Editorial Big Header like "Why Zelt?" */}
+      {/* Editorial Big Header matching "Why Zelt?" from user reference */}
       <div style={{ textAlign: "center", marginBottom: "110px", maxWidth: "800px" }}>
         <h2
           style={{
@@ -31,8 +31,8 @@ export function WhyOrbitEditorial() {
         >
           Why Orbit?
         </h2>
-        <p style={{ fontSize: "19px", color: "#787774", lineHeight: 1.5, maxWidth: "560px", margin: "0 auto" }}>
-          Built for thinkers who refuse to be constrained by tabs, rigid windows, and fragmented tools.
+        <p style={{ fontSize: "19px", color: "#787774", lineHeight: 1.5, maxWidth: "600px", margin: "0 auto" }}>
+          Software was supposed to make thinking effortless. Instead, we spend half our workday scrolling up and down single-thread chats and hunting through 40 browser tabs.
         </p>
       </div>
 
@@ -45,7 +45,7 @@ export function WhyOrbitEditorial() {
           gap: "140px",
         }}
       >
-        {/* ── ROW 1: Text Left + Floating Dark Chat Artifact Right ── */}
+        {/* ── ROW 1: Text on LEFT, Visual Artifact on RIGHT ── */}
         <div
           style={{
             display: "grid",
@@ -54,10 +54,10 @@ export function WhyOrbitEditorial() {
             alignItems: "center",
           }}
         >
-          {/* Text block */}
-          <div style={{ maxWidth: "440px" }}>
-            <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#e1aa8b", marginBottom: "12px" }}>
-              THE PROBLEM WE SOLVED
+          {/* Text Left */}
+          <div style={{ maxWidth: "460px" }}>
+            <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#e1aa8b", marginBottom: "12px" }}>
+              THE CORE PROBLEM
             </div>
             <h3
               style={{
@@ -69,17 +69,17 @@ export function WhyOrbitEditorial() {
                 lineHeight: 1.2,
               }}
             >
-              No more scrolling miles up and down for context.
+              Never scroll miles up and down to check context again.
             </h3>
             <p
               style={{
                 fontSize: "16px",
                 lineHeight: 1.7,
                 color: "#555555",
-                marginBottom: "24px",
+                marginBottom: "16px",
               }}
             >
-              On standard AI chats, exploring a tangential question means losing your place. You scroll up to re-read previous answers, lose your train of thought, and scroll down again to continue typing.
+              When you ask ChatGPT or Claude a deep question, you receive an elaborate answer. But the moment you want to explore a follow-up or test an idea, you have to scroll all the way up to re-read that context, then scroll all the way down to write your prompt. Your train of thought breaks every single time.
             </p>
             <p
               style={{
@@ -89,15 +89,15 @@ export function WhyOrbitEditorial() {
                 marginBottom: "24px",
               }}
             >
-              With Orbit, you simply spawn another AI window or scratchpad right next to it. Compare models side-by-side, branch queries, and keep your critical reference material visible permanently.
+              Orbit eliminates this friction entirely. Instead of one tall, suffocating chat stream, you simply open a new AI card or note right beside the first one. Your initial research stays permanently visible on the left while you brainstorm on the right.
             </p>
-            <div style={{ display: "flex", gap: "12px", alignItems: "center", fontSize: "14px", color: "#111111", fontWeight: 600 }}>
+            <div style={{ display: "flex", gap: "10px", alignItems: "center", fontSize: "14px", color: "#111111", fontWeight: 600 }}>
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#e1aa8b" }} />
-              Parallel conversations without lost context
+              Side-by-side branch thinking without memory fatigue
             </div>
           </div>
 
-          {/* Visual Artifact (Offset Dark Card with Floating Badges) */}
+          {/* Visual Artifact Right */}
           <div
             style={{
               position: "relative",
@@ -142,8 +142,8 @@ export function WhyOrbitEditorial() {
                   AI
                 </div>
                 <div>
-                  <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff" }}>Claude 3.5 Sonnet</div>
-                  <div style={{ fontSize: "11px", color: "#888" }}>Active in Workspace</div>
+                  <div style={{ fontSize: "14px", fontWeight: 600, color: "#fff" }}>Claude 3.5 &bull; Thread A</div>
+                  <div style={{ fontSize: "11px", color: "#888" }}>Pinned Context on Canvas</div>
                 </div>
               </div>
 
@@ -159,7 +159,7 @@ export function WhyOrbitEditorial() {
                     fontSize: "13px",
                   }}
                 >
-                  Synthesize the system architecture for our distributed pipeline.
+                  Extract the auth tokens logic from our architecture.
                 </div>
                 <div
                   style={{
@@ -173,7 +173,7 @@ export function WhyOrbitEditorial() {
                     lineHeight: 1.5,
                   }}
                 >
-                  Linked diagram nodes #3 and #7 to your Postgres database schema directly on canvas.
+                  Tokens are signed via jose (HS256) with 7-day expiration cookies. Kept in view!
                 </div>
               </div>
 
@@ -190,7 +190,7 @@ export function WhyOrbitEditorial() {
                   color: "#666",
                 }}
               >
-                <span>Ask follow-up or branch idea...</span>
+                <span>Branching into new card...</span>
                 <CornerDownLeft size={14} color="#888" />
               </div>
             </div>
@@ -216,10 +216,10 @@ export function WhyOrbitEditorial() {
                 gap: "6px",
               }}
             >
-              <Sparkles size={14} /> Instant Flow
+              <Eye size={14} /> Always In Sight
             </motion.div>
 
-            {/* Floating Pill badge "Connected: 12 nodes" */}
+            {/* Floating Pill badge "Zero lost context" */}
             <motion.div
               initial={{ scale: 0.95, y: -6 }}
               animate={{ scale: 1, y: 4 }}
@@ -242,12 +242,12 @@ export function WhyOrbitEditorial() {
               }}
             >
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10b981" }} />
-              Live Context Grounding
+              No endless scroll wheeling
             </motion.div>
           </div>
         </div>
 
-        {/* ── ROW 2: Floating Dark Card Left + Text Right ── */}
+        {/* ── ROW 2: Visual Artifact on LEFT, Text on RIGHT (Strict Alternating) ── */}
         <div
           style={{
             display: "grid",
@@ -256,7 +256,7 @@ export function WhyOrbitEditorial() {
             alignItems: "center",
           }}
         >
-          {/* Visual Artifact (Offset Dark Code/Approval card with Floating Badge) */}
+          {/* Visual Artifact on LEFT */}
           <div
             style={{
               position: "relative",
@@ -264,9 +264,7 @@ export function WhyOrbitEditorial() {
               justifyContent: "center",
               alignItems: "center",
               minHeight: "420px",
-              order: 2, // on desktop this displays to the left depending on flow
             }}
-            className="md:order-1"
           >
             {/* Dark Card */}
             <div
@@ -287,8 +285,8 @@ export function WhyOrbitEditorial() {
               {/* Header */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                  <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#e1aa8b" }} />
-                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#fff" }}>orbit.canvas</span>
+                  <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#60a5fa" }} />
+                  <span style={{ fontSize: "14px", fontWeight: 600, color: "#fff" }}>GPT-4o &bull; Thread B (Follow-up)</span>
                 </div>
                 <span
                   style={{
@@ -302,7 +300,7 @@ export function WhyOrbitEditorial() {
                     borderRadius: "6px",
                   }}
                 >
-                  LIVE APP
+                  PARALLEL
                 </span>
               </div>
 
@@ -319,12 +317,14 @@ export function WhyOrbitEditorial() {
                   border: "1px solid #2e2e34",
                 }}
               >
-                <div style={{ color: "#71717a" }}>// Instant Code Execution</div>
+                <div style={{ color: "#71717a" }}>// Referencing Thread A automatically</div>
                 <div>
-                  <span style={{ color: "#f472b6" }}>const</span> <span style={{ color: "#60a5fa" }}>workspace</span> = <span style={{ color: "#facc15" }}>useOrbit</span>();
+                  <span style={{ color: "#f472b6" }}>const</span> <span style={{ color: "#60a5fa" }}>cookieConfig</span> = &#123;
                 </div>
-                <div>workspace.<span style={{ color: "#34d399" }}>syncContext</span>([&quot;notes&quot;, &quot;ai&quot;]);</div>
-                <div style={{ color: "#4ade80", marginTop: "8px" }}>✓ Live compiled in 8ms</div>
+                <div style={{ paddingLeft: "12px", color: "#67e8f9" }}>httpOnly: true, maxAge: 604800,</div>
+                <div style={{ paddingLeft: "12px", color: "#67e8f9" }}>sameSite: &quot;lax&quot;, path: &quot;/&quot;</div>
+                <div>&#125;;</div>
+                <div style={{ color: "#4ade80", marginTop: "8px" }}>✓ Instant verification without re-prompting</div>
               </div>
 
               {/* Action Button like the "Approve" button in reference */}
@@ -345,7 +345,7 @@ export function WhyOrbitEditorial() {
                   gap: "8px",
                 }}
               >
-                <Check size={16} /> Execute on Canvas
+                <Check size={16} /> Link Output to Scratchpad
               </button>
             </div>
 
@@ -375,8 +375,8 @@ export function WhyOrbitEditorial() {
                 O
               </div>
               <div>
-                <div style={{ fontSize: "12px", fontWeight: 600 }}>Multiplayer Synced</div>
-                <div style={{ fontSize: "11px", color: "#888" }}>2 collaborators editing</div>
+                <div style={{ fontSize: "12px", fontWeight: 600 }}>Multi-Model Parallel</div>
+                <div style={{ fontSize: "11px", color: "#888" }}>Comparing Claude & GPT-4o</div>
               </div>
             </motion.div>
 
@@ -400,12 +400,15 @@ export function WhyOrbitEditorial() {
                 boxShadow: "0 12px 24px rgba(225, 170, 139, 0.4)",
               }}
             >
-              <Code2 size={24} />
+              <Layers size={22} />
             </motion.div>
           </div>
 
-          {/* Text block */}
-          <div style={{ maxWidth: "440px", order: 1 }} className="md:order-2">
+          {/* Text Right */}
+          <div style={{ maxWidth: "460px" }}>
+            <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#60a5fa", marginBottom: "12px" }}>
+              A COMFORTABLE WORKDAY
+            </div>
             <h3
               style={{
                 fontSize: "36px",
@@ -413,10 +416,21 @@ export function WhyOrbitEditorial() {
                 letterSpacing: "-0.03em",
                 color: "#111111",
                 marginBottom: "20px",
+                lineHeight: 1.2,
               }}
             >
-              Enabling
+              Compare answers and cross-reference with zero friction.
             </h3>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: 1.7,
+                color: "#555555",
+                marginBottom: "16px",
+              }}
+            >
+              Have you ever wanted to ask Claude for a creative architecture and ask GPT-4o to write the implementation, but had to toggle between two separate browser windows?
+            </p>
             <p
               style={{
                 fontSize: "16px",
@@ -425,11 +439,11 @@ export function WhyOrbitEditorial() {
                 marginBottom: "24px",
               }}
             >
-              Deep work is about giving yourself the right tools without friction. Orbit makes live code execution, multi-model AI reasoning, spatial notes, and live web research available in a single unified space, as intuitive as dragging and connecting nodes.
+              In Orbit, you can drop Claude on the left and GPT-4o on the right. You can take a snippet from one, paste it into an integrated code runner in the center, and sketch a visual diagram on the bottom. Your workspace adapts to how your mind actually thinks.
             </p>
-            <div style={{ display: "flex", gap: "12px", alignItems: "center", fontSize: "14px", color: "#111111", fontWeight: 500 }}>
-              <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#111" }} />
-              Zero context fragmentation
+            <div style={{ display: "flex", gap: "10px", alignItems: "center", fontSize: "14px", color: "#111111", fontWeight: 600 }}>
+              <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#60a5fa" }} />
+              Everything unified on one limitless screen
             </div>
           </div>
         </div>
