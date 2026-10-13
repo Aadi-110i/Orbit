@@ -85,13 +85,13 @@ export function WorkspaceNotchHeader() {
   return (
     <header
       style={{
-        position: "absolute",
-        top: 0,
+        position: "fixed",
+        top: "12px",
         left: 0,
         right: 0,
         display: "flex",
         justifyContent: "center",
-        zIndex: 9999,
+        zIndex: 99999,
         pointerEvents: "none",
       }}
     >

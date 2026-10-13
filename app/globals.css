@@ -1252,8 +1252,8 @@ body {
   --canvas-dot: rgba(0, 0, 0, 0.06);
 
   /* Workspace bezel */
-  --bezel-border: #1a1a1a;
-  --bezel-bg: #f2f2f2;
+  --bezel-border: #111111;
+  --bezel-bg: #000000;
 
   /* Surface (containers) */
   --surface: rgba(255, 255, 255, 0.06);
