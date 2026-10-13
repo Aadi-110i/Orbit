@@ -167,10 +167,10 @@ export default function HomePage() {
                 fontSize: "18px", 
                 lineHeight: 1.6, 
                 color: "#555", 
-                maxWidth: "480px"
+                maxWidth: "500px"
               }}
             >
-              Chat with multiple AI bots, take notes, manage projects, and keep your files — all in one seamless workspace. Less switching. More creating.
+              Stop scrolling up and down endless chat threads just to keep context. Orbit lets you spawn multiple AI chats, live code snippets, and research notes side-by-side on an infinite canvas—so everything stays in view.
             </motion.p>
           </div>
 

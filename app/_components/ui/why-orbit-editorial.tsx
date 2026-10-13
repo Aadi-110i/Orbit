@@ -56,6 +56,9 @@ export function WhyOrbitEditorial() {
         >
           {/* Text block */}
           <div style={{ maxWidth: "440px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 700, letterSpacing: "0.15em", textTransform: "uppercase", color: "#e1aa8b", marginBottom: "12px" }}>
+              THE PROBLEM WE SOLVED
+            </div>
             <h3
               style={{
                 fontSize: "36px",
@@ -63,9 +66,10 @@ export function WhyOrbitEditorial() {
                 letterSpacing: "-0.03em",
                 color: "#111111",
                 marginBottom: "20px",
+                lineHeight: 1.2,
               }}
             >
-              Spatial-centric
+              No more scrolling miles up and down for context.
             </h3>
             <p
               style={{
@@ -75,11 +79,21 @@ export function WhyOrbitEditorial() {
                 marginBottom: "24px",
               }}
             >
-              Create a fluid thinking experience by arranging your research, AI chats, and code around your own cognitive flow, not rigid browser windows. With Orbit, your mind never has to jump through hoops to connect disparate ideas.
+              On standard AI chats, exploring a tangential question means losing your place. You scroll up to re-read previous answers, lose your train of thought, and scroll down again to continue typing.
             </p>
-            <div style={{ display: "flex", gap: "12px", alignItems: "center", fontSize: "14px", color: "#111111", fontWeight: 500 }}>
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: 1.7,
+                color: "#555555",
+                marginBottom: "24px",
+              }}
+            >
+              With Orbit, you simply spawn another AI window or scratchpad right next to it. Compare models side-by-side, branch queries, and keep your critical reference material visible permanently.
+            </p>
+            <div style={{ display: "flex", gap: "12px", alignItems: "center", fontSize: "14px", color: "#111111", fontWeight: 600 }}>
               <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#e1aa8b" }} />
-              Self-organizing infinite canvas
+              Parallel conversations without lost context
             </div>
           </div>
 
