@@ -518,7 +518,7 @@ function PricingCard({ title, price, desc, features, highlighted = false }: { ti
 
 function BlogCard({ date, title, desc, image }: { date: string, title: string, desc: string, image?: string }) {
   return (
-    <div style={{ cursor: "pointer", group: "true" }} className="group">
+    <div style={{ cursor: "pointer" }} className="group">
       <div style={{ width: "100%", height: "200px", background: "#f5f5f5", borderRadius: "16px", marginBottom: "24px", overflow: "hidden", position: "relative" }}>
         {image ? (
           <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.4s" }} className="group-hover:scale-105" />

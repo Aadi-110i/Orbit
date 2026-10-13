@@ -166,7 +166,7 @@ function getInitialContainers(): OrbContainer[] {
         id: "1",
         role: "assistant",
         content: "Here is the code snippet you requested:\n```typescript\nimport React from 'react';\n\nexport function Component() {\n  return <div>Hello World</div>;\n}\n```",
-        timestamp: Date.now(),
+        createdAt: Date.now(),
       }
     ];
   }
