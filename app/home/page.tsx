@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { MessageSquare, FolderOpen, FileText, Sparkles, Users, Search, ArrowRight, Check, ChevronDown } from "lucide-react";
+import { MessageSquare, FolderOpen, FileText, Sparkles, Users, Search, ArrowRight, Check, ChevronDown, Code2, PenTool } from "lucide-react";
 import { useState } from "react";
 import { ImageStreamHero } from "@/app/_components/ui/image-stream-hero";
 
@@ -281,6 +281,16 @@ export default function HomePage() {
             icon={<Search />}
             title="Web Research"
             desc="Built-in web grounding that synthesizes current internet knowledge directly into your workspace."
+          />
+          <FeatureCard 
+            icon={<Code2 />}
+            title="Integrated Code Studio"
+            desc="Write, format, and review multi-language code snippets directly on your board with full syntax highlighting."
+          />
+          <FeatureCard 
+            icon={<PenTool />}
+            title="Freeform Canvas & Draw"
+            desc="Sketch system architectures, draw diagrams, and annotate your thoughts freely alongside your notes and AI chats."
           />
         </div>
       </section>
