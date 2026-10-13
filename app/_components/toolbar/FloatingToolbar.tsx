@@ -47,7 +47,7 @@ export const FloatingToolbar = memo(function FloatingToolbar() {
 
   return (
     <div
-      className="fixed top-3 z-50"
+      className="fixed bottom-6 z-50"
       style={{ left: "50%", transform: "translateX(-50%)", zIndex: 9999 }}
     >
       <div

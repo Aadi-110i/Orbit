@@ -18,6 +18,7 @@ import { WelcomeState } from "@/app/_components/common/WelcomeState";
 import { MinimizedTray } from "@/app/_components/common/MinimizedTray";
 import { useDemoWorkspace } from "@/app/_lib/hooks/useDemoWorkspace";
 import { RadarMinimap } from "./RadarMinimap";
+import { WorkspaceNotchHeader } from "@/app/_components/navigation/WorkspaceNotchHeader";
 
 const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 3;
@@ -240,6 +241,9 @@ export function WorkspaceCanvas() {
 
       {/* Welcome state */}
       <WelcomeLayer />
+
+      {/* Top Dynamic Notch Header (Inspired by screenshot) */}
+      <WorkspaceNotchHeader />
 
       {/* Floating toolbar */}
       <FloatingToolbar />
