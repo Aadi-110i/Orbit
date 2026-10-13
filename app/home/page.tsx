@@ -296,6 +296,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── LIVE INTERACTIVE CANVAS SANDBOX ── */}
+      <LiveCanvasSandbox />
+
       {/* ── PRICING SECTION ── */}
       <section id="pricing" style={{ padding: "120px 5%", background: "#fafafa", display: "flex", flexDirection: "column", alignItems: "center", borderTop: "1px solid #eaeaea", borderBottom: "1px solid #eaeaea" }}>
         <h2 style={{ fontSize: "42px", fontWeight: 500, letterSpacing: "-0.02em", marginBottom: "16px" }}>Simple, Transparent Pricing</h2>
@@ -327,9 +330,6 @@ export default function HomePage() {
 
         </div>
       </section>
-
-      {/* ── LIVE INTERACTIVE CANVAS SANDBOX ── */}
-      <LiveCanvasSandbox />
 
       {/* ── FAQ SECTION ── */}
       <section id="faq" style={{ padding: "120px 5%", background: "#111", color: "white", display: "flex", flexDirection: "column", alignItems: "center" }}>
