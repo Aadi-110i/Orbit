@@ -242,11 +242,8 @@ export function WorkspaceCanvas() {
       {/* Welcome state */}
       <WelcomeLayer />
 
-      {/* Top Dynamic Notch Header (Inspired by screenshot) */}
+      {/* Top Unified Notch Taskbar */}
       <WorkspaceNotchHeader />
-
-      {/* Floating toolbar */}
-      <FloatingToolbar />
 
       {/* Minimized tray */}
       <MinimizedTrayLayer />
