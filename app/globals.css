@@ -1247,15 +1247,19 @@ body {
    ============================================================ */
 
 :root {
-  /* Canvas */
-  --canvas-bg: linear-gradient(135deg, #FDFBF7 0%, #F4EDE4 100%);
-  --canvas-dot: rgba(176, 106, 48, 0.12);
+  /* Canvas - Dark Mode */
+  --canvas-bg: #0a0a0b;
+  --canvas-dot: rgba(255, 255, 255, 0.08);
+
+  /* Workspace bezel */
+  --bezel-border: rgba(255, 255, 255, 0.85);
+  --bezel-bg: #000000;
 
   /* Surface (containers) */
-  --surface: rgba(255, 255, 255, 0.05);
+  --surface: rgba(255, 255, 255, 0.06);
   --surface-raised: rgba(255, 255, 255, 0.1);
-  --surface-hover: rgba(255, 255, 255, 0.15);
-  --surface-border: rgba(255, 255, 255, 0.2);
+  --surface-hover: rgba(255, 255, 255, 0.14);
+  --surface-border: rgba(255, 255, 255, 0.18);
 
   /* Text */
   --text-primary: #ffffff;

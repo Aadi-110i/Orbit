@@ -216,53 +216,79 @@ export function WorkspaceCanvas() {
       : "canvas-select";
 
   return (
-    <div className="relative w-full h-full overflow-hidden" style={{ background: "var(--canvas-bg)" }}>
-      {/* Canvas surface */}
+    /* ── Black backdrop "device frame" ────────────────────────────── */
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        background: "var(--bezel-bg)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "10px",
+        boxSizing: "border-box",
+      }}
+    >
+      {/* ── Rounded white-bordered inner workspace frame ────────────── */}
       <div
-        ref={canvasRef}
-        className={`absolute inset-0 ${cursorClass}`}
-        style={{ touchAction: "none" }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onClick={handleCanvasClick}
-        onContextMenu={(e) => {
-          if (e.target === canvasRef.current) {
-            e.preventDefault();
-          }
+        className="relative overflow-hidden"
+        style={{
+          width: "100%",
+          height: "100%",
+          borderRadius: "24px",
+          border: "2px solid var(--bezel-border)",
+          background: "var(--canvas-bg)",
+          boxShadow:
+            "0 0 0 1px rgba(0,0,0,0.8), 0 32px 80px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.15)",
+          position: "relative",
         }}
       >
-        {/* Dot background - now extracts its own pan/zoom to avoid re-rendering WorkspaceCanvas */}
-        <CanvasBackgroundLayer />
+        {/* Canvas surface */}
+        <div
+          ref={canvasRef}
+          className={`absolute inset-0 ${cursorClass}`}
+          style={{ touchAction: "none" }}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onClick={handleCanvasClick}
+          onContextMenu={(e) => {
+            if (e.target === canvasRef.current) {
+              e.preventDefault();
+            }
+          }}
+        >
+          {/* Dot background */}
+          <CanvasBackgroundLayer />
+          {/* Container world (transformed) */}
+          <ContainerWorldLayer />
+        </div>
 
-        {/* Container world (transformed) */}
-        <ContainerWorldLayer />
+        {/* Welcome state */}
+        <WelcomeLayer />
+
+        {/* Top Unified Notch Taskbar */}
+        <WorkspaceNotchHeader />
+
+        {/* Minimized tray */}
+        <MinimizedTrayLayer />
+
+        {/* Command palette */}
+        {isCommandPaletteOpen && <CommandPalette />}
+
+        {/* Context menu */}
+        {contextMenuState.open && (
+          <ContextMenu
+            x={contextMenuState.x}
+            y={contextMenuState.y}
+            containerId={contextMenuState.containerId}
+            onClose={closeContextMenu}
+          />
+        )}
+
+        {/* Radar Minimap */}
+        <RadarMinimap />
       </div>
-
-      {/* Welcome state */}
-      <WelcomeLayer />
-
-      {/* Top Unified Notch Taskbar */}
-      <WorkspaceNotchHeader />
-
-      {/* Minimized tray */}
-      <MinimizedTrayLayer />
-
-      {/* Command palette */}
-      {isCommandPaletteOpen && <CommandPalette />}
-
-      {/* Context menu */}
-      {contextMenuState.open && (
-        <ContextMenu
-          x={contextMenuState.x}
-          y={contextMenuState.y}
-          containerId={contextMenuState.containerId}
-          onClose={closeContextMenu}
-        />
-      )}
-
-      {/* Radar Minimap */}
-      <RadarMinimap />
     </div>
   );
 }

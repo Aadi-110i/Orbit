@@ -85,7 +85,7 @@ export function WorkspaceNotchHeader() {
   return (
     <header
       style={{
-        position: "fixed",
+        position: "absolute",
         top: 0,
         left: 0,
         right: 0,
@@ -105,20 +105,19 @@ export function WorkspaceNotchHeader() {
         {/* ── THE NOTCH TOOLBAR ── */}
         <div
           style={{
-            background: "rgba(255, 255, 255, 0.94)",
-            backdropFilter: "blur(20px)",
-            WebkitBackdropFilter: "blur(20px)",
-            color: "#18181b",
+            background: "rgba(22, 22, 24, 0.97)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            color: "#f0f0f0",
             display: "flex",
             alignItems: "center",
             gap: "5px",
             padding: "6px 14px",
-            borderBottomLeftRadius: "22px",
-            borderBottomRightRadius: "22px",
-            borderLeft: "1px solid rgba(0, 0, 0, 0.08)",
-            borderRight: "1px solid rgba(0, 0, 0, 0.08)",
-            borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
-            boxShadow: "0 14px 40px rgba(0, 0, 0, 0.14)",
+            borderBottomLeftRadius: "18px",
+            borderBottomRightRadius: "18px",
+            border: "1px solid rgba(255, 255, 255, 0.18)",
+            borderTop: "none",
+            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0,0,0,0.4)",
             fontFamily: "var(--font-ui), 'Geist Sans', -apple-system, sans-serif",
             userSelect: "none",
           }}
@@ -132,7 +131,7 @@ export function WorkspaceNotchHeader() {
               alignItems: "center",
               gap: "7px",
               textDecoration: "none",
-              color: "#111111",
+              color: "#f0f0f0",
               padding: "4px 8px 4px 4px",
               borderRadius: "99px",
               fontWeight: 700,
@@ -160,7 +159,7 @@ export function WorkspaceNotchHeader() {
           </Link>
 
           {/* Divider */}
-          <div style={{ width: "1px", height: "16px", background: "rgba(0, 0, 0, 0.1)", margin: "0 2px" }} />
+          <div style={{ width: "1px", height: "16px", background: "rgba(255, 255, 255, 0.15)", margin: "0 2px" }} />
 
           {/* Dashboard Dropdown Trigger */}
           <button
@@ -169,32 +168,32 @@ export function WorkspaceNotchHeader() {
               display: "flex",
               alignItems: "center",
               gap: "5px",
-              background: menuOpen ? "rgba(0,0,0,0.06)" : "transparent",
+              background: menuOpen ? "rgba(255,255,255,0.1)" : "transparent",
               border: "none",
               borderRadius: "8px",
               padding: "5px 8px",
               fontSize: "13px",
               fontWeight: 600,
-              color: "#111111",
+              color: "#f0f0f0",
               cursor: "pointer",
               transition: "background 0.15s",
             }}
             onMouseEnter={(e) => {
-              if (!menuOpen) e.currentTarget.style.background = "rgba(0,0,0,0.04)";
+              if (!menuOpen) e.currentTarget.style.background = "rgba(255,255,255,0.08)";
             }}
             onMouseLeave={(e) => {
               if (!menuOpen) e.currentTarget.style.background = "transparent";
             }}
           >
-            <Sparkles size={13} color="#b06a30" />
+            <Sparkles size={13} color="#e29c66" />
             <span>{activeBoard}</span>
             <motion.div animate={{ rotate: menuOpen ? 180 : 0 }} transition={{ duration: 0.2 }}>
-              <ChevronDown size={13} color="#71717a" />
+              <ChevronDown size={13} color="rgba(255,255,255,0.5)" />
             </motion.div>
           </button>
 
           {/* Divider */}
-          <div style={{ width: "1px", height: "16px", background: "rgba(0, 0, 0, 0.1)", margin: "0 2px" }} />
+          <div style={{ width: "1px", height: "16px", background: "rgba(255, 255, 255, 0.15)", margin: "0 2px" }} />
 
           {/* Mode Toggles: Select & Hand */}
           <button
@@ -211,12 +210,12 @@ export function WorkspaceNotchHeader() {
               fontWeight: 500,
               border: "none",
               cursor: "pointer",
-              background: tool === "select" ? "rgba(225, 170, 139, 0.25)" : "transparent",
-              color: tool === "select" ? "#8a4510" : "#555555",
+              background: tool === "select" ? "rgba(255, 255, 255, 0.12)" : "transparent",
+              color: tool === "select" ? "#ffffff" : "rgba(255,255,255,0.55)",
               transition: "all 0.15s ease",
             }}
           >
-            <MousePointer2 size={14} color={tool === "select" ? "#b06a30" : "#666"} />
+            <MousePointer2 size={14} color={tool === "select" ? "#e29c66" : "rgba(255,255,255,0.45)"} />
             <span>Select</span>
           </button>
 
@@ -234,17 +233,17 @@ export function WorkspaceNotchHeader() {
               fontWeight: 500,
               border: "none",
               cursor: "pointer",
-              background: tool === "hand" ? "rgba(225, 170, 139, 0.25)" : "transparent",
-              color: tool === "hand" ? "#8a4510" : "#555555",
+              background: tool === "hand" ? "rgba(255, 255, 255, 0.12)" : "transparent",
+              color: tool === "hand" ? "#ffffff" : "rgba(255,255,255,0.55)",
               transition: "all 0.15s ease",
             }}
           >
-            <Hand size={14} color={tool === "hand" ? "#b06a30" : "#666"} />
+            <Hand size={14} color={tool === "hand" ? "#e29c66" : "rgba(255,255,255,0.45)"} />
             <span>Hand</span>
           </button>
 
           {/* Divider */}
-          <div style={{ width: "1px", height: "16px", background: "rgba(0, 0, 0, 0.1)", margin: "0 2px" }} />
+          <div style={{ width: "1px", height: "16px", background: "rgba(255, 255, 255, 0.15)", margin: "0 2px" }} />
 
           {/* Quick Create Actions (+Chat, +Note, +Search, +Code, +Draw) */}
           <div style={{ display: "flex", alignItems: "center", gap: "3px" }}>
@@ -262,18 +261,18 @@ export function WorkspaceNotchHeader() {
                   borderRadius: "8px",
                   fontSize: "13px",
                   fontWeight: 500,
-                  border: "1px solid rgba(0, 0, 0, 0.05)",
-                  background: "rgba(255, 255, 255, 0.8)",
-                  color: "#18181b",
+                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  background: "rgba(255, 255, 255, 0.07)",
+                  color: "rgba(255,255,255,0.85)",
                   cursor: "pointer",
                   transition: "background 0.15s, transform 0.1s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#ffffff";
-                  e.currentTarget.style.boxShadow = "0 2px 6px rgba(0,0,0,0.06)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.14)";
+                  e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.3)";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.8)";
+                  e.currentTarget.style.background = "rgba(255, 255, 255, 0.07)";
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
@@ -284,7 +283,7 @@ export function WorkspaceNotchHeader() {
           </div>
 
           {/* Divider */}
-          <div style={{ width: "1px", height: "16px", background: "rgba(0, 0, 0, 0.1)", margin: "0 2px" }} />
+          <div style={{ width: "1px", height: "16px", background: "rgba(255, 255, 255, 0.15)", margin: "0 2px" }} />
 
           {/* Fit Canvas */}
           <button
@@ -296,12 +295,12 @@ export function WorkspaceNotchHeader() {
               borderRadius: "6px",
               padding: "5px 6px",
               cursor: "pointer",
-              color: "#52525b",
+              color: "rgba(255,255,255,0.55)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.05)")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
             <Maximize size={14} />
@@ -318,19 +317,19 @@ export function WorkspaceNotchHeader() {
               borderRadius: "6px",
               padding: "5px 6px",
               cursor: "pointer",
-              color: "#52525b",
+              color: "rgba(255,255,255,0.55)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(0,0,0,0.05)")}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
             <Command size={14} />
           </button>
 
           {/* Divider */}
-          <div style={{ width: "1px", height: "16px", background: "rgba(0, 0, 0, 0.1)", margin: "0 2px" }} />
+          <div style={{ width: "1px", height: "16px", background: "rgba(255, 255, 255, 0.15)", margin: "0 2px" }} />
 
           {/* Sign Out */}
           <button
@@ -345,16 +344,16 @@ export function WorkspaceNotchHeader() {
               borderRadius: "6px",
               padding: "5px 8px",
               fontSize: "12px",
-              color: "#71717a",
+              color: "rgba(255,255,255,0.45)",
               cursor: "pointer",
               transition: "color 0.15s, background 0.15s",
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.color = "#111111";
-              e.currentTarget.style.background = "rgba(0,0,0,0.05)";
+              e.currentTarget.style.color = "rgba(255,255,255,0.9)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = "#71717a";
+              e.currentTarget.style.color = "rgba(255,255,255,0.45)";
               e.currentTarget.style.background = "transparent";
             }}
           >
@@ -377,14 +376,16 @@ export function WorkspaceNotchHeader() {
                 top: "100%",
                 left: "220px",
                 width: "260px",
-                background: "#ffffff",
-                border: "1px solid rgba(0, 0, 0, 0.1)",
+                background: "rgba(20, 20, 22, 0.98)",
+                border: "1px solid rgba(255, 255, 255, 0.12)",
                 borderRadius: "16px",
-                boxShadow: "0 20px 48px rgba(0, 0, 0, 0.18)",
+                boxShadow: "0 20px 60px rgba(0, 0, 0, 0.7)",
                 padding: "8px",
                 marginTop: "6px",
                 zIndex: 10000,
-                color: "#18181b",
+                color: "#f0f0f0",
+                backdropFilter: "blur(20px)",
+                WebkitBackdropFilter: "blur(20px)",
               }}
             >
               <div
@@ -394,7 +395,7 @@ export function WorkspaceNotchHeader() {
                   fontWeight: 700,
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  color: "#71717a",
+                  color: "rgba(255,255,255,0.3)",
                 }}
               >
                 Workspace Views
@@ -418,28 +419,28 @@ export function WorkspaceNotchHeader() {
                         padding: "8px 10px",
                         borderRadius: "8px",
                         border: "none",
-                        background: isSelected ? "#F5F5F7" : "transparent",
+                        background: isSelected ? "rgba(255, 255, 255, 0.1)" : "transparent",
                         cursor: "pointer",
                         textAlign: "left",
                         transition: "background 0.15s",
                       }}
                       onMouseEnter={(e) => {
-                        if (!isSelected) e.currentTarget.style.background = "rgba(0,0,0,0.03)";
+                        if (!isSelected) e.currentTarget.style.background = "rgba(255,255,255,0.06)";
                       }}
                       onMouseLeave={(e) => {
                         if (!isSelected) e.currentTarget.style.background = "transparent";
                       }}
                     >
                       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        <item.icon size={14} color={isSelected ? "#b06a30" : "#71717a"} />
+                        <item.icon size={14} color={isSelected ? "#e29c66" : "rgba(255,255,255,0.4)"} />
                         <div>
-                          <div style={{ fontSize: "12px", fontWeight: isSelected ? 600 : 500, color: "#111" }}>
+                          <div style={{ fontSize: "12px", fontWeight: isSelected ? 600 : 500, color: isSelected ? "#fff" : "rgba(255,255,255,0.75)" }}>
                             {item.label}
                           </div>
-                          <div style={{ fontSize: "10px", color: "#71717a" }}>{item.desc}</div>
+                          <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>{item.desc}</div>
                         </div>
                       </div>
-                      {isSelected && <Check size={13} color="#b06a30" />}
+                      {isSelected && <Check size={13} color="#e29c66" />}
                     </button>
                   );
                 })}
