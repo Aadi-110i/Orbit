@@ -7,6 +7,57 @@ import { useState } from "react";
 import { ImageStreamHero } from "@/app/_components/ui/image-stream-hero";
 import { LiveCanvasSandbox } from "@/app/_components/ui/live-canvas-sandbox";
 import { WhyOrbitEditorial } from "@/app/_components/ui/why-orbit-editorial";
+import {
+  SpotlightComparisonTable,
+  ComparisonPlan,
+  ComparisonGroup,
+} from "@/app/_components/ui/spotlight-comparison-table";
+
+const ORBIT_COMPARISON_PLANS: ComparisonPlan[] = [
+  { id: "starter", name: "Starter", price: "$0", interval: "/mo", actionLabel: "Start free", href: "/signup" },
+  { id: "pro", name: "Pro", price: "$19", interval: "/mo", badge: "Room to grow", actionLabel: "Choose Pro", href: "/signup" },
+  { id: "business", name: "Business", price: "$49", interval: "/mo", actionLabel: "Let's talk", href: "/signup" },
+];
+
+const ORBIT_COMPARISON_GROUPS: ComparisonGroup[] = [
+  {
+    id: "workspace",
+    label: "Workspace & Canvas",
+    features: [
+      { id: "projects", label: "Active Canvas Projects", values: { starter: "3", pro: "Unlimited", business: "Unlimited" } },
+      { id: "members", label: "Multiplayer Collaborators", values: { starter: "1", pro: "10", business: "Unlimited" } },
+      { id: "storage", label: "Spatial File Storage", values: { starter: "5 GB", pro: "100 GB", business: "1 TB" } },
+      { id: "history", label: "Version & Canvas History", values: { starter: true, pro: true, business: true } },
+    ],
+  },
+  {
+    id: "intelligence",
+    label: "AI Models & Intelligence",
+    features: [
+      { id: "multimodel", label: "Multi-Model AI (GPT-4o, Claude)", values: { starter: "Basic", pro: "Unlimited", business: "Priority Dedicated" } },
+      { id: "webgrounding", label: "Real-time Web Research Grounding", values: { starter: false, pro: true, business: true } },
+      { id: "customkeys", label: "BYO API Keys (Zero Margin)", values: { starter: true, pro: true, business: true } },
+    ],
+  },
+  {
+    id: "workflow",
+    label: "Workflow & Code",
+    features: [
+      { id: "monaco", label: "Monaco Code Execution Engine", values: { starter: true, pro: true, business: true } },
+      { id: "automations", label: "Canvas Node Automations", values: { starter: false, pro: true, business: true } },
+      { id: "export", label: "Vector & Markdown Export", values: { starter: true, pro: true, business: true } },
+    ],
+  },
+  {
+    id: "security",
+    label: "Security & Control",
+    features: [
+      { id: "encryption", label: "End-to-End Local Encryption", values: { starter: true, pro: true, business: true } },
+      { id: "sso", label: "SAML SSO & Audit Logs", values: { starter: false, pro: false, business: true } },
+      { id: "support", label: "Priority 24/7 SLA Support", values: { starter: false, pro: "Email (24h)", business: "Dedicated Slack (1h)" } },
+    ],
+  },
+];
 
 export default function HomePage() {
   return (
@@ -303,35 +354,59 @@ export default function HomePage() {
       {/* ── WHY ORBIT EDITORIAL (ZELT-STYLE FEATURE SECTION) ── */}
       <WhyOrbitEditorial />
 
-      {/* ── PRICING SECTION ── */}
-      <section id="pricing" style={{ padding: "120px 5%", background: "#fafafa", display: "flex", flexDirection: "column", alignItems: "center", borderTop: "1px solid #eaeaea", borderBottom: "1px solid #eaeaea" }}>
-        <h2 style={{ fontSize: "42px", fontWeight: 500, letterSpacing: "-0.02em", marginBottom: "16px" }}>Simple, Transparent Pricing</h2>
-        <p style={{ fontSize: "18px", color: "#666", marginBottom: "80px", textAlign: "center" }}>Start free, upgrade when you need infinite limits.</p>
+      {/* ── PRICING SECTION: SPOTLIGHT COMPARISON TABLE ── */}
+      <section
+        id="pricing"
+        style={{
+          padding: "120px 6%",
+          background: "#0c0c0e",
+          color: "#ffffff",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderTop: "1px solid #1f1f23",
+          borderBottom: "1px solid #1f1f23",
+          width: "100%",
+        }}
+      >
+        <div style={{ width: "100%", maxWidth: "860px" }}>
+          {/* Header matching user image reference */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: "24px" }}>
+            <div>
+              <p
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 700,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "#71717a",
+                  marginBottom: "8px",
+                }}
+              >
+                PLANS, SIDE BY SIDE
+              </p>
+              <h2
+                style={{
+                  fontSize: "clamp(28px, 4vw, 36px)",
+                  fontWeight: 600,
+                  letterSpacing: "-0.03em",
+                  color: "#ffffff",
+                  lineHeight: 1.15,
+                }}
+              >
+                Good plans. Clear differences.
+              </h2>
+            </div>
+            <span style={{ fontSize: "12px", color: "#71717a" }}>Billed monthly</span>
+          </div>
 
-        <div style={{ display: "flex", gap: "32px", width: "100%", maxWidth: "1000px", flexWrap: "wrap", justifyContent: "center" }}>
-          
-          <PricingCard 
-            title="Starter"
-            price="$0"
-            desc="Perfect for individuals just exploring."
-            features={["3 Active Projects", "Basic AI Chat", "Community Support", "1GB Storage"]}
+          {/* The Spotlight Comparison Component */}
+          <SpotlightComparisonTable
+            plans={ORBIT_COMPARISON_PLANS}
+            groups={ORBIT_COMPARISON_GROUPS}
+            defaultSelectedPlanId="pro"
+            autoplay={true}
           />
-
-          <PricingCard 
-            title="Pro"
-            price="$29"
-            desc="For creators doing deep work."
-            features={["Unlimited Projects", "Premium Models (GPT-4, Opus)", "Priority Support", "100GB Storage"]}
-            highlighted
-          />
-
-          <PricingCard 
-            title="Team"
-            price="$99"
-            desc="For startups and agile teams."
-            features={["Shared Workspaces", "SSO Authentication", "Dedicated Success Manager", "Unlimited Storage"]}
-          />
-
         </div>
       </section>
 
