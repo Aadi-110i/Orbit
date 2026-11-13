@@ -17,7 +17,7 @@ import {
   useProviderStore,
   writeChatProvider,
 } from "@/app/_lib/providers/store";
-import { getProvider, type ProviderId } from "@/app/_lib/providers/registry";
+import { getProvider, resolveModel, type ProviderId } from "@/app/_lib/providers/registry";
 import { ProviderIcon } from "@/app/_components/providers/ProviderIcons";
 
 interface ChatContainerProps {
@@ -48,9 +48,17 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
 
   useEffect(() => {
     const stored = readChatProvider(container.id);
-    const next = stored ?? activeId ?? connectedIds[0] ?? null;
+    // The stored choice only counts while that provider is still connected.
+    const next =
+      stored && connectedIds.includes(stored)
+        ? stored
+        : activeId && connectedIds.includes(activeId)
+          ? activeId
+          : connectedIds[0] ?? null;
+
     setChatProvider(next);
-    setModel(next && providers[next] ? providers[next]!.model : "");
+    // A saved key can point at a retired model, so fall back to a live one.
+    setModel(next ? resolveModel(next, providers[next]?.model) : "");
     // Only re-seed when the stored choice or the connected set changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [container.id, activeId, connectedIds.join(",")]);
@@ -59,7 +67,7 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
     (id: ProviderId) => {
       setChatProvider(id);
       writeChatProvider(container.id, id);
-      setModel(providers[id]?.model ?? "");
+      setModel(resolveModel(id, providers[id]?.model));
     },
     [container.id, providers]
   );
@@ -153,7 +161,7 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
             content: m.content,
           })),
           provider: connection ? chatProvider : undefined,
-          model: connection ? model || connection.model : undefined,
+          model: connection ? resolveModel(chatProvider, model || connection.model) : undefined,
           apiKey: connection ? connection.apiKey : undefined,
         }),
         signal: abortRef.current.signal,
@@ -328,7 +336,7 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
             })}
           </div>
 
-          {chatProvider && getProvider(chatProvider)?.models.length ? (
+          {chatProvider && providers[chatProvider] && getProvider(chatProvider)?.models.length ? (
             <select
               value={model || providers[chatProvider]?.model || ""}
               onChange={(e) => {

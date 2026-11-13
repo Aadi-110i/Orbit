@@ -12,7 +12,7 @@ import {
   Loader2,
   Sparkles,
 } from "lucide-react";
-import { PROVIDERS, getDefaultModel, type ProviderId } from "@/app/_lib/providers/registry";
+import { PROVIDERS, getDefaultModel, resolveModel, type ProviderId } from "@/app/_lib/providers/registry";
 import { useProviderStore } from "@/app/_lib/providers/store";
 import { ProviderIcon } from "./ProviderIcons";
 import styles from "./provider-connect.module.css";
@@ -50,8 +50,9 @@ export function ProviderConnectModal({ open, onClose }: ProviderConnectModalProp
   const selectProvider = (id: ProviderId | null) => {
     setSelected(id);
     const existing = id ? providers[id] : undefined;
+    // A saved key can point at a model the provider has since retired.
     setApiKey(existing?.apiKey ?? "");
-    setModel(existing?.model ?? (id ? getDefaultModel(id) : ""));
+    setModel(id ? resolveModel(id, existing?.model) : "");
     setError("");
     setReveal(false);
   };

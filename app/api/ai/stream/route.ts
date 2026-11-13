@@ -180,6 +180,21 @@ async function* readProviderStream(
   }
 }
 
+/** Digs the human-readable reason out of a provider error body. */
+function extractProviderMessage(detail: string): string | null {
+  try {
+    const json = JSON.parse(detail);
+    const message = asRecord(json.error).message;
+    if (typeof message === "string") return message;
+  } catch {
+    /* not JSON */
+  }
+  // Some providers answer with plain text.
+  const plain = detail.replace(/\s+/g, " ").trim();
+  if (plain && plain.length <= 240 && !plain.startsWith("{")) return plain;
+  return null;
+}
+
 /** Perplexity answers in one shot, not a stream. */
 async function readWholeBody(res: Response): Promise<string> {
   try {
@@ -323,11 +338,20 @@ export async function POST(req: NextRequest) {
 
       if (!res.ok) {
         const detail = await res.text().catch(() => "");
-        const friendly = res.status === 401 || res.status === 403
-          ? "That API key was rejected by the provider. Check it and try again."
-          : res.status === 429
-            ? "The provider is rate limiting this key. Wait a moment and try again."
-            : `The provider returned an error (${res.status}).`;
+        const providerMessage = extractProviderMessage(detail);
+
+        const friendly =
+          res.status === 401 || res.status === 403
+            ? "That API key was rejected by the provider. Check it and try again."
+            : res.status === 404
+              ? `That model is not available any more. Pick another one from the list.${
+                  providerMessage ? ` (${providerMessage})` : ""
+                }`
+              : res.status === 429
+                ? "The provider is rate limiting this key. Wait a moment and try again."
+                : `The provider returned an error (${res.status}).${
+                    providerMessage ? ` ${providerMessage}` : ""
+                  }`;
 
         // Header values must be single line ASCII.
         const safeDetail = detail.replace(/[^\x20-\x7E]/g, " ").slice(0, 200);
