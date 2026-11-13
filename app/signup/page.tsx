@@ -1,10 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Loader2, ArrowRight } from "lucide-react";
-import { motion } from "framer-motion";
+import { Loader2, ArrowRight, Mail, Lock, User, AlertCircle } from "lucide-react";
+import { AuthShell } from "@/app/_components/auth/AuthShell";
+import { AuthField } from "@/app/_components/auth/AuthField";
+import styles from "@/app/_components/auth/auth-shell.module.css";
+
+const STRENGTH_COLORS = ["", "#E05252", "#E8A838", "#4CAF78"];
+const STRENGTH_LABELS = ["", "Weak", "Fair", "Strong"];
+
+function getPasswordStrength(password: string) {
+  if (!password) return 0;
+
+  let score = 0;
+  if (password.length >= 8) score += 1;
+  if (password.length >= 12 || /\d/.test(password)) score += 1;
+  if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score += 1;
+  if (/[^A-Za-z0-9]/.test(password)) score += 1;
+
+  return Math.min(3, score);
+}
 
 export default function SignupPage() {
   const router = useRouter();
@@ -14,6 +31,8 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const strength = useMemo(() => getPasswordStrength(password), [password]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,253 +68,116 @@ export default function SignupPage() {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        minHeight: "100vh",
-        background: "#FBFBFA",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "40px 24px",
-        fontFamily: "'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-        color: "#111111",
-      }}
+    <AuthShell
+      eyebrow="Free forever"
+      title={
+        <>
+          Give ideas <em>a bigger space.</em>
+        </>
+      }
+      subtitle="AI chats, research, code and notes on one infinite canvas."
+      switchHint="Already on Orbit?"
+      switchLabel="Log in"
+      switchHref="/login"
     >
-      {/* Top minimal bar */}
-      <div style={{ width: "100%", maxWidth: "1080px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <Link
-          href="/home"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            textDecoration: "none",
-            color: "#111111",
-          }}
-        >
-          <div style={{ width: "16px", height: "16px", borderRadius: "50%", background: "#111111" }} />
-          <span style={{ fontSize: "16px", fontWeight: 600, letterSpacing: "-0.03em" }}>orbit</span>
-        </Link>
-        <Link
-          href="/login"
-          style={{
-            fontSize: "14px",
-            color: "#666666",
-            textDecoration: "none",
-            fontWeight: 500,
-          }}
-        >
-          Log in &rarr;
-        </Link>
+      <div className={styles.cardHead}>
+        <h2 className={styles.cardTitle}>Create your workspace</h2>
+        <p className={styles.cardSub}>Free forever for individuals. No credit card.</p>
       </div>
 
-      {/* Center Auth Card */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{
-          width: "100%",
-          maxWidth: "380px",
-          margin: "40px 0",
-        }}
-      >
-        <div style={{ marginBottom: "32px" }}>
-          <h1
-            style={{
-              fontSize: "28px",
-              fontWeight: 600,
-              letterSpacing: "-0.03em",
-              color: "#111111",
-              marginBottom: "8px",
-            }}
-          >
-            Create an account
-          </h1>
-          <p style={{ fontSize: "14px", color: "#787774", lineHeight: 1.5 }}>
-            Get started with Orbit. Free forever for individuals.
-          </p>
+      {error && (
+        <div className={styles.alert} role="alert">
+          <AlertCircle size={15} style={{ flexShrink: 0, marginTop: 1 }} />
+          <span>{error}</span>
+        </div>
+      )}
+
+      <form onSubmit={handleSignup} className={styles.form}>
+        <AuthField
+          id="name"
+          label="Full name"
+          type="text"
+          icon={<User size={16} />}
+          placeholder="Ada Lovelace"
+          value={name}
+          onChange={setName}
+          autoComplete="name"
+          autoFocus
+          required
+        />
+
+        <AuthField
+          id="email"
+          label="Email address"
+          type="email"
+          icon={<Mail size={16} />}
+          placeholder="you@company.com"
+          value={email}
+          onChange={setEmail}
+          autoComplete="email"
+          required
+        />
+
+        <div>
+          <AuthField
+            id="password"
+            label="Password"
+            type="password"
+            icon={<Lock size={16} />}
+            placeholder="At least 8 characters"
+            value={password}
+            onChange={setPassword}
+            autoComplete="new-password"
+            minLength={8}
+            required
+          />
+          {password.length > 0 && (
+            <div className={styles.strength}>
+              <div className={styles.strengthBars}>
+                {[0, 1, 2].map((i) => (
+                  <span
+                    key={i}
+                    className={styles.strengthBar}
+                    style={{
+                      background:
+                        i < strength ? STRENGTH_COLORS[strength] : "rgba(255, 255, 255, 0.1)",
+                    }}
+                  />
+                ))}
+              </div>
+              <span
+                className={styles.strengthLabel}
+                style={{ color: STRENGTH_COLORS[strength] || undefined }}
+              >
+                {STRENGTH_LABELS[strength]}
+              </span>
+            </div>
+          )}
         </div>
 
-        {error && (
-          <div
-            style={{
-              background: "#FDEBEC",
-              color: "#9F2F2D",
-              padding: "10px 14px",
-              borderRadius: "8px",
-              fontSize: "13px",
-              marginBottom: "20px",
-              border: "1px solid rgba(159, 47, 45, 0.2)",
-            }}
-          >
-            {error}
-          </div>
-        )}
+        <button type="submit" className={styles.submit} disabled={loading}>
+          {loading ? (
+            <>
+              <Loader2 size={16} className="animate-spin" />
+              Creating workspace…
+            </>
+          ) : (
+            <>
+              Create your workspace <ArrowRight size={16} />
+            </>
+          )}
+        </button>
+      </form>
 
-        <form onSubmit={handleSignup} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          <div>
-            <label
-              style={{
-                display: "block",
-                fontSize: "13px",
-                fontWeight: 500,
-                color: "#111111",
-                marginBottom: "6px",
-              }}
-            >
-              Full name
-            </label>
-            <input
-              type="text"
-              placeholder="Ada Lovelace"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              autoFocus
-              style={{
-                width: "100%",
-                padding: "10px 14px",
-                background: "#FFFFFF",
-                border: "1px solid #EAEAEA",
-                borderRadius: "8px",
-                fontSize: "14px",
-                color: "#111111",
-                outline: "none",
-                transition: "border-color 0.15s, box-shadow 0.15s",
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = "#111111";
-                e.currentTarget.style.boxShadow = "0 0 0 1px #111111";
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = "#EAEAEA";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            />
-          </div>
-
-          <div>
-            <label
-              style={{
-                display: "block",
-                fontSize: "13px",
-                fontWeight: 500,
-                color: "#111111",
-                marginBottom: "6px",
-              }}
-            >
-              Email address
-            </label>
-            <input
-              type="email"
-              placeholder="you@company.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              style={{
-                width: "100%",
-                padding: "10px 14px",
-                background: "#FFFFFF",
-                border: "1px solid #EAEAEA",
-                borderRadius: "8px",
-                fontSize: "14px",
-                color: "#111111",
-                outline: "none",
-                transition: "border-color 0.15s, box-shadow 0.15s",
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = "#111111";
-                e.currentTarget.style.boxShadow = "0 0 0 1px #111111";
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = "#EAEAEA";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            />
-          </div>
-
-          <div>
-            <label
-              style={{
-                display: "block",
-                fontSize: "13px",
-                fontWeight: 500,
-                color: "#111111",
-                marginBottom: "6px",
-              }}
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              placeholder="At least 8 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              style={{
-                width: "100%",
-                padding: "10px 14px",
-                background: "#FFFFFF",
-                border: "1px solid #EAEAEA",
-                borderRadius: "8px",
-                fontSize: "14px",
-                color: "#111111",
-                outline: "none",
-                transition: "border-color 0.15s, box-shadow 0.15s",
-              }}
-              onFocus={(e) => {
-                e.currentTarget.style.borderColor = "#111111";
-                e.currentTarget.style.boxShadow = "0 0 0 1px #111111";
-              }}
-              onBlur={(e) => {
-                e.currentTarget.style.borderColor = "#EAEAEA";
-                e.currentTarget.style.boxShadow = "none";
-              }}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: "100%",
-              padding: "11px 16px",
-              background: "#111111",
-              color: "#FFFFFF",
-              border: "none",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: 500,
-              cursor: "pointer",
-              marginTop: "8px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "6px",
-              transition: "background 0.15s",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "#262626")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "#111111")}
-          >
-            {loading ? <Loader2 size={16} className="animate-spin" /> : <>Create account <ArrowRight size={14} /></>}
-          </button>
-        </form>
-
-        <div style={{ marginTop: "28px", textAlign: "center", fontSize: "13px", color: "#787774" }}>
-          Already have an account?{" "}
-          <Link href="/login" style={{ color: "#111111", fontWeight: 500, textDecoration: "underline" }}>
-            Log in
-          </Link>
-        </div>
-      </motion.div>
-
-      {/* Footer text */}
-      <div style={{ fontSize: "12px", color: "#999999", textAlign: "center" }}>
-        By continuing, you agree to Orbit&apos;s Terms of Service and Privacy Policy.
+      <div className={styles.switch}>
+        Already have an account?{" "}
+        <Link href="/login">Log in</Link>
       </div>
-    </div>
+
+      <div className={styles.legal}>
+        By continuing, you agree to Orbit&apos;s{" "}
+        <Link href="#">Terms of Service</Link> and <Link href="#">Privacy Policy</Link>.
+      </div>
+    </AuthShell>
   );
 }

@@ -1240,6 +1240,26 @@ body {
 }
 
 
+/* -- Canvas surface (light paper + dot grid) --------------------- */
+
+/* The canvas is a light, off-white sheet of paper. The default dark
+   workspace tokens are re-mapped here so everything that floats on the
+   canvas (welcome card, minimised pills, drawing board) stays legible
+   against the paper instead of the old pure-white surface. */
+.workspace-canvas {
+  --text-primary: #17171a;
+  --text-secondary: #55555c;
+  --text-muted: #8c8c93;
+  --surface: rgba(255, 255, 255, 0.92);
+  --surface-raised: #f4f1ee;
+  --surface-hover: #ffffff;
+  --surface-border: rgba(17, 17, 17, 0.12);
+  --accent-text: #8a4510;
+  --shadow-sm: 0 1px 3px rgba(17, 17, 17, 0.08);
+  --shadow-md: 0 8px 24px rgba(17, 17, 17, 0.1);
+  --shadow-lg: 0 24px 60px rgba(17, 17, 17, 0.14);
+}
+
 /* -- RESTORED WORKSPACE CSS -- */
 
 /* ============================================================
@@ -1248,8 +1268,10 @@ body {
 
 :root {
   /* Canvas - Light / Apple-style */
-  --canvas-bg: #ffffff;
-  --canvas-dot: rgba(0, 0, 0, 0.06);
+  --canvas-bg: #f2f0ed;
+  /* Off-white canvas paper */
+  --canvas-dot: rgba(17, 17, 17, 0.34);
+  /* Small black dots */
 
   /* Workspace bezel */
   --bezel-border: #111111;

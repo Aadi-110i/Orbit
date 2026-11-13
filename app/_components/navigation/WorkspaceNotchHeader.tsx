@@ -18,11 +18,16 @@ import {
   User,
   LogOut,
   Check,
+  Plug,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCanvasStore } from "@/app/_lib/store/canvas-store";
 import { useShallow } from "zustand/react/shallow";
 import type { ContainerType } from "@/app/_lib/types/container";
+import { useProviderStore } from "@/app/_lib/providers/store";
+import { getProvider } from "@/app/_lib/providers/registry";
+import { ProviderIcon } from "@/app/_components/providers/ProviderIcons";
+import { openProviderModal } from "@/app/_components/providers/ProviderLauncher";
 
 const CREATE_ACTIONS: {
   type: ContainerType;
@@ -41,6 +46,9 @@ export function WorkspaceNotchHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeBoard, setActiveBoard] = useState("Dashboard");
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const { activeId } = useProviderStore();
+  const activeProvider = getProvider(activeId);
 
   const { tool, setTool, addContainer, openCommandPalette, fitCanvas } =
     useCanvasStore(
@@ -326,6 +334,36 @@ export function WorkspaceNotchHeader() {
             onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
           >
             <Command size={14} />
+          </button>
+
+          {/* AI Provider */}
+          <button
+            id="open-provider-connect"
+            onClick={openProviderModal}
+            title={
+              activeProvider
+                ? `Connected: ${activeProvider.name}`
+                : "Connect an AI provider"
+            }
+            style={{
+              background: "transparent",
+              border: "none",
+              borderRadius: "6px",
+              padding: "5px 6px",
+              cursor: "pointer",
+              color: "rgba(255,255,255,0.55)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+          >
+            {activeProvider ? (
+              <ProviderIcon provider={activeProvider.id} size={14} />
+            ) : (
+              <Plug size={14} />
+            )}
           </button>
 
           {/* Divider */}

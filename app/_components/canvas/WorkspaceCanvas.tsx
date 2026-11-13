@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useState,
   memo,
 } from "react";
 import { useCanvasStore } from "@/app/_lib/store/canvas-store";
@@ -19,6 +20,7 @@ import { MinimizedTray } from "@/app/_components/common/MinimizedTray";
 import { useDemoWorkspace } from "@/app/_lib/hooks/useDemoWorkspace";
 import { RadarMinimap } from "./RadarMinimap";
 import { WorkspaceNotchHeader } from "@/app/_components/navigation/WorkspaceNotchHeader";
+import { ProviderLauncher } from "@/app/_components/providers/ProviderLauncher";
 
 const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 3;
@@ -30,6 +32,9 @@ export function WorkspaceCanvas() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const isPanningRef = useRef(false);
   const lastPointerRef = useRef({ x: 0, y: 0 });
+  // Mirror of isPanningRef in state: a ref cannot be read during render, and
+  // the cursor class has to re-render when a pan starts or ends.
+  const [isPanning, setIsPanning] = useState(false);
 
   useDemoWorkspace();
 
@@ -50,12 +55,39 @@ export function WorkspaceCanvas() {
 
   // ── Wheel zoom / pan ─────────────────────────────────────
 
+  // A wheel event over a scrollable panel (chat log, code editor, note) must
+  // scroll that panel, not pan the whole workspace. The canvas is a transform
+  // surface, so without this check every scroll inside a window moved the
+  // board instead of the content.
+  const isOverScrollable = useCallback((target: EventTarget | null, deltaY: number) => {
+    let el = target instanceof HTMLElement ? target : null;
+
+    while (el && el !== document.body) {
+      const style = window.getComputedStyle(el);
+      const overflowY = style.overflowY;
+      const scrollable =
+        overflowY === "auto" || overflowY === "scroll" || overflowY === "overlay";
+
+      if (scrollable && el.scrollHeight > el.clientHeight + 1) {
+        const atTop = el.scrollTop <= 0;
+        const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+        const canScroll = deltaY < 0 ? !atTop : !atBottom;
+        if (canScroll) return true;
+      }
+
+      el = el.parentElement;
+    }
+
+    return false;
+  }, []);
+
   const handleWheel = useCallback(
     (e: WheelEvent) => {
-      e.preventDefault();
       const state = useCanvasStore.getState();
 
       if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+
         // ── Zoom ──────────────────────────────────────────────────────────────
         // Use exponential scaling so zoom-in and zoom-out are always symmetric.
         // Math.exp(k * -deltaY) means: positive deltaY → zoom out, negative → zoom in.
@@ -77,10 +109,14 @@ export function WorkspaceCanvas() {
         state.setPan(newPanX, newPanY);
       } else {
         // ── Pan ───────────────────────────────────────────────────────────────
+        // Let a scrollable child handle the wheel first.
+        if (isOverScrollable(e.target, e.deltaY)) return;
+
+        e.preventDefault();
         state.setPan(state.panX - e.deltaX, state.panY - e.deltaY);
       }
     },
-    []
+    [isOverScrollable]
   );
 
   useEffect(() => {
@@ -99,6 +135,7 @@ export function WorkspaceCanvas() {
 
       if (isMiddleMouse || isHandTool) {
         isPanningRef.current = true;
+        setIsPanning(true);
         lastPointerRef.current = { x: e.clientX, y: e.clientY };
         (e.target as HTMLElement).setPointerCapture(e.pointerId);
         e.preventDefault();
@@ -121,6 +158,7 @@ export function WorkspaceCanvas() {
 
   const handlePointerUp = useCallback(() => {
     isPanningRef.current = false;
+    setIsPanning(false);
   }, []);
 
   // ── Click on canvas (clear selection) ────────────────────
@@ -210,7 +248,7 @@ export function WorkspaceCanvas() {
 
   const cursorClass =
     tool === "hand"
-      ? isPanningRef.current
+      ? isPanning
         ? "cursor-grabbing"
         : "canvas-hand"
       : "canvas-select";
@@ -229,13 +267,13 @@ export function WorkspaceCanvas() {
         overflow: "hidden",
       }}
     >
-      {/* ── Rounded white-canvas inner workspace frame ────────────── */}
+      {/* ── Rounded off-white canvas inner workspace frame ─────────── */}
       <div
-        className="relative w-full h-full overflow-hidden"
+        className="workspace-canvas relative w-full h-full overflow-hidden"
         style={{
           borderRadius: "24px",
           border: "2px solid #111111",
-          background: "#ffffff",
+          background: "var(--canvas-bg)",
           boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 24px 72px rgba(0,0,0,0.85)",
         }}
       >
@@ -284,6 +322,9 @@ export function WorkspaceCanvas() {
 
         {/* Radar Minimap */}
         <RadarMinimap />
+
+        {/* Provider connect (auto-opens once after landing in the workspace) */}
+        <ProviderLauncher />
       </div>
     </div>
   );

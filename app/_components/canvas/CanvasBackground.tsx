@@ -13,8 +13,8 @@ export const CanvasBackground = memo(function CanvasBackground({
   panY,
   zoom,
 }: CanvasBackgroundProps) {
-  const dotSpacing = 28 * zoom;
-  const dotSize = Math.max(1, 1.5 * zoom);
+  const dotSpacing = 26 * zoom;
+  const dotSize = Math.max(0.9, 1.15 * zoom);
   const offsetX = panX % dotSpacing;
   const offsetY = panY % dotSpacing;
 
@@ -40,7 +40,6 @@ export const CanvasBackground = memo(function CanvasBackground({
             cy={dotSpacing / 2}
             r={dotSize}
             fill="var(--canvas-dot)"
-            opacity={0.65}
           />
         </pattern>
       </defs>

@@ -9,9 +9,16 @@ import React, {
 } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Send, Paperclip, Square, Copy, Check, RotateCcw, X } from "lucide-react";
+import { Send, Paperclip, Square, Copy, Check, X } from "lucide-react";
 import { useCanvasStore } from "@/app/_lib/store/canvas-store";
 import type { ChatContainer as ChatContainerType, ChatMessage } from "@/app/_lib/types/container";
+import {
+  readChatProvider,
+  useProviderStore,
+  writeChatProvider,
+} from "@/app/_lib/providers/store";
+import { getProvider, type ProviderId } from "@/app/_lib/providers/registry";
+import { ProviderIcon } from "@/app/_components/providers/ProviderIcons";
 
 interface ChatContainerProps {
   container: ChatContainerType;
@@ -30,6 +37,33 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
   const abortRef = useRef<AbortController | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Scroll state: the message list scrolls on its own, never the canvas.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const stickToBottomRef = useRef(true);
+
+  // Connected AI providers
+  const { providers, connectedIds, activeId } = useProviderStore();
+  const [chatProvider, setChatProvider] = useState<ProviderId | null>(null);
+  const [model, setModel] = useState("");
+
+  useEffect(() => {
+    const stored = readChatProvider(container.id);
+    const next = stored ?? activeId ?? connectedIds[0] ?? null;
+    setChatProvider(next);
+    setModel(next && providers[next] ? providers[next]!.model : "");
+    // Only re-seed when the stored choice or the connected set changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [container.id, activeId, connectedIds.join(",")]);
+
+  const selectProvider = useCallback(
+    (id: ProviderId) => {
+      setChatProvider(id);
+      writeChatProvider(container.id, id);
+      setModel(providers[id]?.model ?? "");
+    },
+    [container.id, providers]
+  );
+
   const {
     addMessage,
     updateMessage,
@@ -37,14 +71,30 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
     removeContextSource,
   } = useCanvasStore();
 
-  // Auto-scroll to bottom
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  // ── Scroll handling ─────────────────────────────────────────────
+  // The list is scrolled directly instead of scrollIntoView, which would
+  // also scroll the canvas ancestor and move the whole workspace.
+
+  const handleListScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    stickToBottomRef.current =
+      el.scrollHeight - el.scrollTop - el.clientHeight < 48;
   }, []);
 
+  const scrollToBottom = useCallback((smooth = false) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollTo({ top: el.scrollHeight, behavior: smooth ? "smooth" : "auto" });
+  }, []);
+
+  const lastContent = messages[messages.length - 1]?.content ?? "";
+
   useEffect(() => {
-    scrollToBottom();
-  }, [messages.length, scrollToBottom]);
+    // Follow the stream only while the reader is already at the bottom, so
+    // scrolling up to re-read something is not yanked back down.
+    if (stickToBottomRef.current) scrollToBottom();
+  }, [lastContent, messages.length, scrollToBottom]);
 
   // Auto-resize textarea
   const handleInputChange = useCallback(
@@ -90,6 +140,9 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
 
     // Start streaming
     abortRef.current = new AbortController();
+
+    const connection = chatProvider ? providers[chatProvider] : undefined;
+
     try {
       const res = await fetch("/api/ai/stream", {
         method: "POST",
@@ -99,6 +152,9 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
             role: m.role,
             content: m.content,
           })),
+          provider: connection ? chatProvider : undefined,
+          model: connection ? model || connection.model : undefined,
+          apiKey: connection ? connection.apiKey : undefined,
         }),
         signal: abortRef.current.signal,
       });
@@ -108,33 +164,40 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let accumulated = "";
+      // SSE frames can be split across network chunks, so keep a buffer and
+      // only consume complete lines.
+      let buffer = "";
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split("\n");
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop() ?? "";
 
         for (const line of lines) {
-          if (line.startsWith("data: ")) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              if (data.token !== undefined) {
-                accumulated += data.token;
-                updateMessage(container.id, assistantId, {
-                  content: accumulated,
-                  isStreaming: true,
-                });
-              } else if (data.content !== undefined) {
-                updateMessage(container.id, assistantId, {
-                  content: data.content,
-                  isStreaming: false,
-                });
-              }
-            } catch {
-              // ignore parse errors
+          const trimmed = line.trim();
+          if (!trimmed.startsWith("data:")) continue;
+          const raw = trimmed.slice(5).trim();
+          if (!raw || raw === "[DONE]") continue;
+
+          try {
+            const data = JSON.parse(raw);
+            if (data.token !== undefined) {
+              accumulated += data.token;
+              updateMessage(container.id, assistantId, {
+                content: accumulated,
+                isStreaming: true,
+              });
+            } else if (data.content !== undefined) {
+              updateMessage(container.id, assistantId, {
+                content: data.content,
+                isStreaming: false,
+              });
             }
+          } catch {
+            // ignore parse errors
           }
         }
       }
@@ -159,6 +222,9 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
     addMessage,
     updateMessage,
     setGenerating,
+    chatProvider,
+    model,
+    providers,
   ]);
 
   const stopGeneration = useCallback(() => {
@@ -202,7 +268,12 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
       )}
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 min-h-0">
+      <div
+        ref={scrollRef}
+        onScroll={handleListScroll}
+        className="flex-1 overflow-y-auto px-3 py-3 space-y-3 min-h-0"
+        style={{ overscrollBehavior: "contain" }}
+      >
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full gap-3 py-8">
             <div
@@ -223,6 +294,64 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
         ))}
         <div ref={messagesEndRef} />
       </div>
+
+      {/* Provider / model bar */}
+      {connectedIds.length > 0 && (
+        <div
+          className="flex items-center gap-2 px-3 py-1.5 border-t"
+          style={{ borderColor: "var(--surface-border)" }}
+        >
+          <div className="flex items-center gap-1">
+            {connectedIds.map((id) => {
+              const meta = getProvider(id);
+              const isActive = chatProvider === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => selectProvider(id)}
+                  title={`${meta?.name ?? id} - ${providers[id]?.model ?? ""}`}
+                  aria-label={`Use ${meta?.name ?? id}`}
+                  aria-pressed={isActive}
+                  className="flex items-center justify-center rounded-md transition-all"
+                  style={{
+                    width: 24,
+                    height: 24,
+                    background: isActive ? "var(--accent-subtle)" : "transparent",
+                    border: `1px solid ${
+                      isActive ? "var(--accent)" : "var(--surface-border)"
+                    }`,
+                  }}
+                >
+                  <ProviderIcon provider={id} size={13} />
+                </button>
+              );
+            })}
+          </div>
+
+          {chatProvider && getProvider(chatProvider)?.models.length ? (
+            <select
+              value={model || providers[chatProvider]?.model || ""}
+              onChange={(e) => {
+                // Model choice is per chat window.
+                setModel(e.target.value);
+              }}
+              className="ml-auto text-[11px] outline-none cursor-pointer"
+              style={{
+                background: "transparent",
+                border: "none",
+                color: "var(--text-muted)",
+                maxWidth: 140,
+              }}
+            >
+              {getProvider(chatProvider)!.models.map((m) => (
+                <option key={m.id} value={m.id} style={{ background: "#1A1A1A" }}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+          ) : null}
+        </div>
+      )}
 
       {/* Input area */}
       <div
