@@ -37,9 +37,14 @@ placeholder in brackets if you want to personalise it.
 ### Week 2 — assets and positioning
 
 - [x] Landing + workspace screenshots (`docs/screenshots/`)
-- [ ] **Animated demo GIF** (record 6–8s of panning the board, add a chat, open
-      the code panel, show the minimap). Attach to every post.
-- [ ] Record a 45-second Loom/GIF of the "ask 3 models at once" flow
+- [x] Four zoom crops for social posts (`docs/screenshots/demo-0*.png`) —
+      board overview, chat close-up, code close-up, radar minimap
+- [ ] **Record an 8-second animated GIF yourself** with any screen recorder:
+      pan the board, open a chat, hit `F` to fit the view, show the radar.
+      Attach it to every X/LinkedIn post — static screenshots lose to motion
+      for canvas products. (GIF frames are in `docs/screenshots/` as PNGs if
+      you want to stitch them yourself.)
+- [ ] Record a 45-second Loom of the "ask 3 models at once" flow
 - [ ] Add a "Why" / comparison section: Orbit vs. three browser tabs
 - [ ] Set repo topics + description (Settings → repo topics)
 
