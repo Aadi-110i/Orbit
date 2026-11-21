@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { trackEvent, EVENTS } from "@/app/_lib/analytics";
 import type {
   OrbContainer,
   ContainerType,
@@ -226,6 +227,7 @@ export const useCanvasStore = create<CanvasState>()(
         };
         const container = createContainer(type, center, WORKSPACE_ID);
         set((s) => ({ containers: [...s.containers, container], activeId: container.id }));
+        trackEvent(EVENTS.CONTAINER_CREATED, { type });
         return container.id;
       },
 

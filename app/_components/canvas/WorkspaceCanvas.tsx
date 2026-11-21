@@ -21,6 +21,7 @@ import { useDemoWorkspace } from "@/app/_lib/hooks/useDemoWorkspace";
 import { RadarMinimap } from "./RadarMinimap";
 import { WorkspaceNotchHeader } from "@/app/_components/navigation/WorkspaceNotchHeader";
 import { ProviderLauncher } from "@/app/_components/providers/ProviderLauncher";
+import { trackEvent, EVENTS } from "@/app/_lib/analytics";
 
 const MIN_ZOOM = 0.2;
 const MAX_ZOOM = 3;
@@ -37,6 +38,11 @@ export function WorkspaceCanvas() {
   const [isPanning, setIsPanning] = useState(false);
 
   useDemoWorkspace();
+
+  // The activation signal: a visitor opened the canvas.
+  useEffect(() => {
+    trackEvent(EVENTS.WORKSPACE_OPENED);
+  }, []);
 
   // We don't subscribe to panX, panY, zoom here to avoid re-rendering the whole canvas on every frame of a pan.
   const tool = useCanvasStore((s) => s.tool);

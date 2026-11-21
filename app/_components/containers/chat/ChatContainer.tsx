@@ -19,6 +19,7 @@ import {
 } from "@/app/_lib/providers/store";
 import { getProvider, resolveModel, type ProviderId } from "@/app/_lib/providers/registry";
 import { ProviderIcon } from "@/app/_components/providers/ProviderIcons";
+import { trackEvent, EVENTS } from "@/app/_lib/analytics";
 
 interface ChatContainerProps {
   container: ChatContainerType;
@@ -145,6 +146,7 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
     };
     addMessage(container.id, assistantMsg);
     setGenerating(container.id, true);
+    trackEvent(EVENTS.AI_MESSAGE_SENT, { provider: chatProvider ?? "demo" });
 
     // Start streaming
     abortRef.current = new AbortController();

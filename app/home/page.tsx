@@ -14,9 +14,9 @@ import {
 } from "@/app/_components/ui/spotlight-comparison-table";
 
 const ORBIT_COMPARISON_PLANS: ComparisonPlan[] = [
-  { id: "starter", name: "Free Solo", price: "$0", interval: "/mo", actionLabel: "Launch Free", href: "/signup" },
-  { id: "pro", name: "Orbit Pro", price: "$19", interval: "/mo", badge: "Most Popular", actionLabel: "Start Pro", href: "/signup" },
-  { id: "business", name: "Team Studio", price: "$49", interval: "/mo", badge: "Collaborative", actionLabel: "Get Studio", href: "/signup" },
+  { id: "starter", name: "Free Solo", price: "$0", interval: "/mo", actionLabel: "Launch Free", href: "/workspace" },
+  { id: "pro", name: "Orbit Pro", price: "$19", interval: "/mo", badge: "Most Popular", actionLabel: "Start Pro", href: "/workspace" },
+  { id: "business", name: "Team Studio", price: "$49", interval: "/mo", badge: "Collaborative", actionLabel: "Get Studio", href: "/workspace" },
 ];
 
 const ORBIT_COMPARISON_GROUPS: ComparisonGroup[] = [
@@ -100,8 +100,8 @@ export default function HomePage() {
           </div>
           
           <div style={{ display: "flex", alignItems: "center", gap: "24px", fontSize: "14px", fontWeight: 500 }}>
-            <Link href="/login" style={{ color: "#111", textDecoration: "none" }}>Sign in</Link>
-            <Link href="/signup" style={{
+            <Link href="/workspace" style={{ color: "#111", textDecoration: "none" }}>Open Canvas</Link>
+            <Link href="/workspace" style={{
               background: "#1A1A1A",
               color: "white",
               textDecoration: "none",
@@ -142,7 +142,7 @@ export default function HomePage() {
               transition={{ duration: 0.8, ease: "easeOut" }}
               style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.25em", color: "#666", marginBottom: "32px", textTransform: "uppercase" }}
             >
-              One Workspace. Infinite Possibilities.
+              One canvas. Every model.
             </motion.div>
             
             <motion.h1 
@@ -153,13 +153,13 @@ export default function HomePage() {
                 fontSize: "clamp(48px, 6vw, 76px)", 
                 fontWeight: 500, 
                 lineHeight: 1.05, 
-                color: "#111", 
+                color: "#111",
                 marginBottom: "32px",
                 letterSpacing: "-0.02em",
                 maxWidth: "600px"
               }}
             >
-              All Your AI Tools, Ideas and Work <span style={{ color: "rgba(17,17,17,0.35)" }}>in One Orbit.</span>
+              Ask every AI model <span style={{ color: "rgba(17,17,17,0.35)" }}>at once.</span>
             </motion.h1>
             
             <motion.p 
@@ -169,12 +169,44 @@ export default function HomePage() {
               style={{ 
                 fontSize: "18px", 
                 lineHeight: 1.6, 
-                color: "#555", 
-                maxWidth: "500px"
+                color: "#555",
+                maxWidth: "500px",
+                marginBottom: "32px"
               }}
             >
-              Stop scrolling up and down endless chat threads just to keep context. Orbit lets you spawn multiple AI chats, live code snippets, and research notes side-by-side on an infinite canvas—so everything stays in view.
+              Orbit is an infinite canvas for AI work. Spawn Claude, GPT and Gemini side by side, drop your code and research right next to them, and see the whole problem in one view — no tabs, no lost context.
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+              style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}
+            >
+              <Link
+                href="/workspace"
+                style={{
+                  background: "#1A1A1A",
+                  color: "white",
+                  textDecoration: "none",
+                  borderRadius: "99px",
+                  padding: "14px 28px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  fontWeight: 600,
+                  fontSize: "15px",
+                  transition: "transform 0.15s",
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.02)"}
+                onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
+              >
+                Open the canvas — free <ArrowRight size={16} />
+              </Link>
+              <span style={{ fontSize: "13px", color: "#777" }}>
+                No sign-up. Your board saves in your browser.
+              </span>
+            </motion.div>
           </div>
 
           {/* Right Side: The 3D Orbital System */}
@@ -563,7 +595,7 @@ function PricingCard({ title, price, desc, features, highlighted = false }: { ti
       <p style={{ fontSize: "14px", color: "#666", marginBottom: "24px" }}>{desc}</p>
       <div style={{ fontSize: "48px", fontWeight: 500, letterSpacing: "-0.04em", marginBottom: "32px", color: "#111" }}>{price}<span style={{ fontSize: "16px", color: "#888", fontWeight: 400 }}>/mo</span></div>
       
-      <Link href="/signup" style={{
+      <Link href="/workspace" style={{
         display: "block",
         textAlign: "center",
         padding: "14px",

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,10 +16,39 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Orbit — Think without losing context",
+  title: "Orbit — Ask every AI model at once",
   description:
-    "An AI-powered infinite workspace. Chat, research, code, and take notes — all on the same persistent canvas.",
-  keywords: ["AI workspace", "infinite canvas", "productivity", "chat", "notes", "code"],
+    "Orbit is an infinite canvas for AI work. Run Claude, GPT and Gemini side by side, with your code and research right next to them. No sign-up, free to try.",
+  keywords: [
+    "AI workspace",
+    "infinite canvas",
+    "multi-model AI",
+    "Claude",
+    "GPT",
+    "Gemini",
+    "side by side AI",
+    "productivity",
+    "chat",
+    "notes",
+    "code",
+  ],
+  metadataBase: new URL("https://orbit-tau-black.vercel.app"),
+  openGraph: {
+    title: "Orbit — Ask every AI model at once",
+    description:
+      "An infinite canvas for AI work. Run Claude, GPT and Gemini side by side, with your code and research right next to them.",
+    url: "/home",
+    siteName: "Orbit",
+    type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Orbit — Ask every AI model at once",
+    description:
+      "An infinite canvas for AI work. Run Claude, GPT and Gemini side by side, with your code and research right next to them.",
+    images: ["/opengraph-image"],
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -35,7 +65,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col overflow-hidden">{children}</body>
+      <body className="min-h-full flex flex-col overflow-hidden">{children}<Analytics /></body>
     </html>
   );
 }

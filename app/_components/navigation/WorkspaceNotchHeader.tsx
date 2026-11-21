@@ -45,7 +45,23 @@ export function WorkspaceNotchHeader() {
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeBoard, setActiveBoard] = useState("Dashboard");
+  const [signedIn, setSignedIn] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Orbit runs in guest mode: no account is required, and the board lives in
+  // this browser. Sign out only shows up when a session actually exists.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/auth/session")
+      .then((r) => r.json())
+      .then((data) => {
+        if (!cancelled) setSignedIn(Boolean(data?.user));
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const { activeId } = useProviderStore();
   const activeProvider = getProvider(activeId);
@@ -369,36 +385,57 @@ export function WorkspaceNotchHeader() {
           {/* Divider */}
           <div style={{ width: "1px", height: "16px", background: "rgba(255, 255, 255, 0.15)", margin: "0 2px" }} />
 
-          {/* Sign Out */}
-          <button
-            onClick={handleLogout}
-            title="Sign out of Orbit"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              background: "transparent",
-              border: "none",
-              borderRadius: "6px",
-              padding: "5px 8px",
-              fontSize: "12px",
-              color: "rgba(255,255,255,0.45)",
-              cursor: "pointer",
-              transition: "color 0.15s, background 0.15s",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.color = "rgba(255,255,255,0.9)";
-              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.color = "rgba(255,255,255,0.45)";
-              e.currentTarget.style.background = "transparent";
-            }}
-          >
-            <User size={13} />
-            <span>Sign out</span>
-            <LogOut size={12} />
-          </button>
+          {/* Guest / account state */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {signedIn ? (
+              <button
+                onClick={handleLogout}
+                title="Sign out of Orbit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                  background: "transparent",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "5px 8px",
+                  fontSize: "12px",
+                  color: "rgba(255,255,255,0.45)",
+                  cursor: "pointer",
+                  transition: "color 0.15s, background 0.15s",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = "rgba(255,255,255,0.9)";
+                  e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = "rgba(255,255,255,0.45)";
+                  e.currentTarget.style.background = "transparent";
+                }}
+              >
+                <User size={13} />
+                <span>Sign out</span>
+                <LogOut size={12} />
+              </button>
+            ) : (
+              <span
+                title="No account needed — your board is saved in this browser"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "5px 10px",
+                  borderRadius: "6px",
+                  fontSize: "11px",
+                  color: "rgba(255,255,255,0.45)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <User size={12} />
+                Guest · saved locally
+              </span>
+            )}
+          </div>
         </div>
 
         {/* ── EXPANDED NOTCH DROPDOWN MENU ── */}

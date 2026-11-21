@@ -2,6 +2,7 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 import { getDefaultModel, type ProviderId } from "./registry";
+import { trackEvent, EVENTS } from "@/app/_lib/analytics";
 
 /**
  * Where the user's own API keys live.
@@ -170,6 +171,7 @@ export function useProviderStore() {
         connectedAt: Date.now(),
       });
       setActiveProvider(id);
+      trackEvent(EVENTS.PROVIDER_CONNECTED, { provider: id });
     },
     []
   );
