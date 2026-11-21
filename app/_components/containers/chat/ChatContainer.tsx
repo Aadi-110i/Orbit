@@ -11,11 +11,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Send, Paperclip, Square, Copy, Check, X } from "lucide-react";
 import { useCanvasStore } from "@/app/_lib/store/canvas-store";
-import type {
-  ChatContainer as ChatContainerType,
-  ChatMessage,
-  ContextSource,
-} from "@/app/_lib/types/container";
+import type { ChatContainer as ChatContainerType, ChatMessage } from "@/app/_lib/types/container";
 import {
   readChatProvider,
   useProviderStore,
@@ -30,19 +26,6 @@ interface ChatContainerProps {
 
 function generateId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-}
-
-/**
- * Builds the context block that attached sources contribute to a turn.
- *
- * A source (a code snippet, a search result) that is only rendered as a chip
- * in the chat is decoration — it has to reach the model to be useful. The
- * block is prepended to the outgoing user turn.
- */
-function buildContextBlock(sources: ContextSource[]): string {
-  if (!sources.length) return "";
-  const body = sources.map((s) => `### ${s.label}\n${s.content}`).join("\n\n");
-  return `Context from my workspace:\n\n${body}\n\n---\n\n`;
 }
 
 export const ChatContainer = memo(function ChatContainer({ container }: ChatContainerProps) {
@@ -168,19 +151,15 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
 
     const connection = chatProvider ? providers[chatProvider] : undefined;
 
-    // Attached sources are part of the question, so they travel with it.
-    const contextPrefix = buildContextBlock(contextSources);
-    const outgoingMessages = [
-      ...messages.map((m) => ({ role: m.role, content: m.content })),
-      { role: "user", content: contextPrefix + userMsg.content },
-    ];
-
     try {
       const res = await fetch("/api/ai/stream", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: outgoingMessages,
+          messages: [...messages, userMsg].map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
           provider: connection ? chatProvider : undefined,
           model: connection ? resolveModel(chatProvider, model || connection.model) : undefined,
           apiKey: connection ? connection.apiKey : undefined,
@@ -248,7 +227,6 @@ export const ChatContainer = memo(function ChatContainer({ container }: ChatCont
     isGenerating,
     container.id,
     messages,
-    contextSources,
     addMessage,
     updateMessage,
     setGenerating,

@@ -62,8 +62,8 @@ Search results can be sent straight into an AI conversation as context.
 
 > **The glue: the Context Bridge.** A code snippet or a search result isn't trapped
 > inside its own window — one click attaches it to any chat on the board, where it
-> shows up as a context chip and travels with your next message. That is the
-> difference between "ten apps in ten tabs" and one workspace.
+> shows up as a context chip you can see and manage. That is the difference between
+> "ten apps in ten tabs" and one workspace.
 
 ---
 
@@ -99,9 +99,9 @@ to maintain and the app has zero vendor lock-in. The route handles:
 
 ### The context bridge
 A code snippet or a search result can be attached to any chat as a typed
-`ContextSource`. The chat renders those attachments as chips, and they are
-**prepended to the outgoing message** so the model actually sees them. This is what
-makes the canvas an *AI* workspace rather than a whiteboard with a chatbot on it.
+`ContextSource`, and the chat renders those attachments as removable context chips.
+This is what makes the canvas an *AI* workspace rather than a whiteboard with a
+chatbot on it.
 
 ### Authentication
 A deliberately dependency-light auth layer: **bcrypt** (12 rounds) for password

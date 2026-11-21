@@ -15,18 +15,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Node 24 ships npm 11, which matches the committed lockfile.
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
 
-      # The registry occasionally drops a connection mid-install, so the install
-      # is retried once before the job is allowed to fail.
       - name: Install dependencies
-        run: |
-          npm ci --no-audit --no-fund --prefer-offline || \
-          npm ci --no-audit --no-fund --prefer-offline
+        run: npm ci --no-audit --no-fund
 
       - name: Build (includes a full TypeScript check)
         run: npm run build
