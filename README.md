@@ -152,10 +152,11 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). **No API keys are required to
-run or explore Orbit** — connect a provider from the in-app *Connect an AI
-provider* dialog whenever you want live models. Keys stay in your browser and are
-never stored on Orbit's servers.
+Open [http://localhost:3000](http://localhost:3000). **No sign-up and no API keys are
+required to try Orbit** — the canvas opens instantly and your board is saved in
+your browser. Connect a provider from the in-app *Connect an AI provider* dialog
+whenever you want live models; your key stays in your browser and is never stored
+on Orbit's servers.
 
 ### Environment
 
@@ -192,7 +193,8 @@ Honest snapshot of where each piece stands:
 | Markdown rendering, model self-healing, friendly provider errors | ✅ Shipped |
 | Monaco code editor, 15 languages, add-to-chat context | ✅ Shipped |
 | Notes, drawing tools with undo, context bridge | ✅ Shipped |
-| Auth — signup, login, JWT session, logout | ✅ Shipped (in-memory users) |
+| Auth — no account wall, board persists in the visitor's browser | ✅ Shipped (guest mode) |
+| Optional accounts (signup, login, JWT session) | 🟡 Scaffolded — needs a real database |
 | Command palette, context menus, keyboard shortcuts | ✅ Shipped |
 | Web research panel | 🟡 Prototype — curated demo results |
 | Code execution | ⏳ Planned — sandboxed runner not built yet |
