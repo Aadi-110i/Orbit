@@ -9,7 +9,6 @@
 [![React](https://img.shields.io/badge/React-19-000000?style=flat-square&logo=react)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Tailwind](https://img.shields.io/badge/Tailwind_CSS-v4-38BDF8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
-[![Build](https://github.com/Aadi-110i/Orbit/actions/workflows/ci.yml/badge.svg)](https://github.com/Aadi-110i/Orbit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981?style=flat-square)](LICENSE)
 
 </div>
